@@ -1,0 +1,32 @@
+name: iching
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  intl: ^0.17.0
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.10
+  pdf: ^3.6.0
+  printing: ^5.11.0
+  path_provider: ^2.0.11
+  permission_handler: ^10.2.0
+
+  # open_file: ^3.0.2
+ 
+  # share_plus: ^6.0.0
+  # image_picker: ^0.8.4+5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/mediavibrators.png
