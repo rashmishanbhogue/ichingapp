@@ -412,7 +412,7 @@ class ReportPreview extends StatelessWidget {
     final pdf = pw.Document();
 
     // load the image bytes outside of the page build method
-    final logoBytes = await rootBundle.load('assets/images/mediavibrators.png');
+    final logoBytes = await rootBundle.load('assets/images/logo.jpg');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
     // content for the report
@@ -457,17 +457,17 @@ class ReportPreview extends StatelessWidget {
                     crossAxisAlignment: pw.CrossAxisAlignment.end,
                     children: [
                       pw.Text(
-                        'Ambalapady Shreepathy Acharya',
+                        'Client Name',
                         style: pw.TextStyle(
                             fontSize: 9, fontWeight: pw.FontWeight.bold),
                       ),
-                      pw.Text('"Shreematha", S.T. Road',
+                      pw.Text('Address Line 1',
                           style: pw.TextStyle(
                               fontSize: 9, fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Kunjibettu, Udupi - 576102',
+                      pw.Text('Address Line 1',
                           style: pw.TextStyle(
                               fontSize: 9, fontWeight: pw.FontWeight.bold)),
-                      pw.Text('+91 7411521633',
+                      pw.Text('Cell number',
                           style: pw.TextStyle(
                               fontSize: 9, fontWeight: pw.FontWeight.bold)),
                     ],
@@ -508,7 +508,7 @@ class ReportPreview extends StatelessWidget {
                             width: 20, height: 20), // footer logo
                         pw.SizedBox(width: 8),
                         pw.Text(
-                          'Media Vibrators',
+                          'Firm name',
                           style: pw.TextStyle(fontSize: 12),
                         ),
                       ],
