@@ -29,4 +29,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/mediavibrators.png
+    - assets/images/logo.jpg
