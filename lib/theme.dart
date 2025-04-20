@@ -1,4 +1,4 @@
-// store app themes to be called everywhere
+// theme.dart, store app themes to be called everywhere
 
 import 'package:flutter/material.dart';
 

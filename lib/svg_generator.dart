@@ -1,7 +1,7 @@
 // generate hexagram pattern in svg based on the inputs from user
 
 class SvgGenerator {
-  // Generates a Yin line at a given y-position
+  // generate a yin line (solid filled broken)
   static String getYinLine(double yPosition) {
     return '''
       <path d="M0 $yPosition H70 V${yPosition + 15.8397} H0 V$yPosition Z" fill="#1D1B20"/>
@@ -9,7 +9,7 @@ class SvgGenerator {
     ''';
   }
 
-  // Yin Changing line (solid filled broken with 'X')
+  // yin-changing line (solid filled broken with 'X')
   static String getYinChangingLine(double yPosition) {
     return '''
       <path d="M0 $yPosition H70 V${yPosition + 15.8397} H0 V$yPosition Z" fill="#1D1B20"/>
@@ -18,14 +18,14 @@ class SvgGenerator {
     ''';
   }
 
-  // Yang line (solid filled black)
+  // yang line (solid filled black)
   static String getYangLine(double yPosition) {
     return '''
       <path d="M0 $yPosition H158 V${yPosition + 15.8397} H0 V$yPosition Z" fill="#1D1B20"/>
     ''';
   }
 
-  // Yang Changing line (solid filled black with 'O')
+  // yang-changing line (solid filled black with 'O')
   static String getYangChangingLine(double yPosition) {
     return '''
       <path d="M0 $yPosition H158 V${yPosition + 15.8397} H0 V$yPosition Z" fill="#1D1B20"/>

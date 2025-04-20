@@ -283,7 +283,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                HexagramDetails()), // navigate to QueryDetails()
+                                HexagramDetails()), // navigate to HexagramDetails()
                       );
                     },
                     style: ElevatedButton.styleFrom(
