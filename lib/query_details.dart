@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'coin_tossing.dart';
-import 'responsive.dart';
-import 'theme.dart';
-import 'shared_variables.dart';
-import 'session_data.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/shared_variables.dart';
+import './dart/session_data.dart';
 
 class QueryDetails extends StatefulWidget {
   const QueryDetails({super.key});

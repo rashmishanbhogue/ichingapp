@@ -1,10 +1,10 @@
 // personal_details.dart, navigate here from main.dart
 import 'package:flutter/material.dart';
 import 'query_details.dart';
-import 'responsive.dart';
-import 'theme.dart';
-import 'shared_variables.dart';
-import 'session_data.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/shared_variables.dart';
+import './dart/session_data.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({super.key});

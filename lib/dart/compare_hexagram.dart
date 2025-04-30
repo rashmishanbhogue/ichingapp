@@ -1,6 +1,6 @@
 // compare the generated hexagram(s) with the predefined hexagrams in define_hexagram.dart
 import 'package:collection/collection.dart';
-import './dart/define_hexagram.dart';
+import 'define_hexagram.dart';
 import 'session_data.dart';
 import 'svg_generator.dart';
 

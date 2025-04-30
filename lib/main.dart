@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'personal_details.dart';
-import 'theme.dart';
+import './dart/theme.dart';
 
 void main() {
   runApp(const IchingApp());

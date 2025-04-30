@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'query_details.dart';
 import 'report_preview.dart';
-import 'responsive.dart';
-import 'theme.dart';
-import 'session_data.dart';
-import 'shared_variables.dart';
-import 'compare_hexagram.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/session_data.dart';
+import './dart/shared_variables.dart';
+import './dart/compare_hexagram.dart';
 
 class HexagramDetails extends StatefulWidget {
   const HexagramDetails({super.key});

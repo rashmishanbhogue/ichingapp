@@ -6,9 +6,9 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-import 'responsive.dart';
-import 'theme.dart';
-import 'session_data.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/session_data.dart';
 
 class ReportPreview extends StatelessWidget {
   const ReportPreview({super.key});
