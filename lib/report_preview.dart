@@ -1,3 +1,4 @@
+// report_preview.dart, view and download report in pdf formatted for a5
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
@@ -5,9 +6,9 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-import 'responsive.dart';
-import 'theme.dart';
-import 'session_data.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/session_data.dart';
 
 class ReportPreview extends StatelessWidget {
   const ReportPreview({super.key});
@@ -411,153 +412,176 @@ class ReportPreview extends StatelessWidget {
   Future<pw.Document> generatePDF() async {
     final pdf = pw.Document();
 
-    // load the image bytes outside of the page build method
     final logoBytes = await rootBundle.load('assets/images/logo.jpg');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
-    // content for the report
     final content = generateReportContent();
 
-    // add content to the PDF with headers and footers
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a5,
-        margin: pw.EdgeInsets.only(left: 30, right: 10, top: 20, bottom: 20),
+        margin: pw.EdgeInsets.all(20),
         header: (context) => pw.Container(
           margin: pw.EdgeInsets.symmetric(horizontal: 20),
           child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.SizedBox(height: 10),
-              pw.Center(
-                child: pw.Text(
-                  'I-Ching Report',
-                  style: pw.TextStyle(
-                      fontSize: 20, fontWeight: pw.FontWeight.bold),
-                ),
-              ),
-              pw.SizedBox(height: 16),
-              // user information aligned on the left, firm details on the right
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  pw.Row(
                     children: [
-                      pw.Text('Name: ${SessionData.name}',
-                          style: pw.TextStyle(fontSize: 9)),
-                      pw.Text('DoB: ${SessionData.dob}, ${SessionData.tob}',
-                          style: pw.TextStyle(fontSize: 9)),
-                      pw.Text('PoB: ${SessionData.pob}',
-                          style: pw.TextStyle(fontSize: 9)),
-                      pw.Text('Consultation Date: ${SessionData.currentDate}',
-                          style: pw.TextStyle(fontSize: 9)),
-                    ],
-                  ),
-                  pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.end,
-                    children: [
+                      pw.Image(logoImage, width: 30, height: 30),
+                      pw.SizedBox(width: 8),
                       pw.Text(
-                        'Client Name',
+                        'Your Firm Name',
                         style: pw.TextStyle(
-                            fontSize: 9, fontWeight: pw.FontWeight.bold),
+                            fontSize: 10, fontWeight: pw.FontWeight.bold),
                       ),
-                      pw.Text('Address Line 1',
-                          style: pw.TextStyle(
-                              fontSize: 9, fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Address Line 1',
-                          style: pw.TextStyle(
-                              fontSize: 9, fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Cell number',
-                          style: pw.TextStyle(
-                              fontSize: 9, fontWeight: pw.FontWeight.bold)),
                     ],
                   ),
                 ],
               ),
-              pw.Divider(thickness: 1), // line after the header
+              pw.Row(
+                children: [
+                  pw.Text(
+                    'I C H I N G\t\t\tR E P O R T',
+                    style: pw.TextStyle(
+                        fontSize: 16, fontWeight: pw.FontWeight.bold),
+                  ),
+                ],
+              ),
+              pw.SizedBox(height: 16),
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text('Name: ${SessionData.name}',
+                      style: pw.TextStyle(fontSize: 9)),
+                  pw.Text('DoB: ${SessionData.dob}, ${SessionData.tob}',
+                      style: pw.TextStyle(fontSize: 9)),
+                  pw.Text('PoB: ${SessionData.pob}',
+                      style: pw.TextStyle(fontSize: 9)),
+                  pw.Text('Consultation Date: ${SessionData.currentDate}',
+                      style: pw.TextStyle(fontSize: 9)),
+                ],
+              ),
+              pw.Divider(thickness: 1),
               pw.SizedBox(height: 20),
             ],
           ),
         ),
-        build: (pw.Context context) => [
-          // wrap the entire content inside a container to apply margins
+        build: (context) => [
           pw.Container(
             margin: pw.EdgeInsets.symmetric(horizontal: 22),
             child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: content,
             ),
           ),
-          pw.SizedBox(height: 20), // space before the footer
         ],
         footer: (context) => pw.Container(
           margin: pw.EdgeInsets.symmetric(horizontal: 20),
           child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.stretch,
             children: [
               pw.Divider(thickness: 1),
-              pw.SizedBox(height: 8),
+              pw.SizedBox(height: 4),
               pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: [
-                    pw.Text(
-                      'Page ${context.pageNumber} of ${context.pagesCount}',
-                      style: pw.TextStyle(fontSize: 12),
-                    ),
-                    pw.Row(
-                      children: [
-                        pw.Image(logoImage,
-                            width: 20, height: 20), // footer logo
-                        pw.SizedBox(width: 8),
-                        pw.Text(
-                          'Firm name',
-                          style: pw.TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ]),
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text('Firm Address Line 1 - A',
+                          style: pw.TextStyle(fontSize: 9)),
+                      pw.Text('Firm Address Line 2 - A',
+                          style: pw.TextStyle(fontSize: 9)),
+                      pw.Text('Firm Address Line 3 - A',
+                          style: pw.TextStyle(fontSize: 9)),
+                    ],
+                  ),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text('Firm Address Line 1 - B',
+                          style: pw.TextStyle(fontSize: 9)),
+                      pw.Text('Firm Address Line 2 - B',
+                          style: pw.TextStyle(fontSize: 9)),
+                      pw.Text('Firm Address Line 3 - B',
+                          style: pw.TextStyle(fontSize: 9)),
+                    ],
+                  ),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text('Firm Address Line 1 - C',
+                          style: pw.TextStyle(fontSize: 9)),
+                      pw.Text('Firm Address Line 2 - C',
+                          style: pw.TextStyle(fontSize: 9)),
+                      pw.Text('Firm Address Line 3 - C',
+                          style: pw.TextStyle(fontSize: 9)),
+                    ],
+                  ),
+                ],
+              ),
+              pw.Divider(thickness: 1),
+              pw.SizedBox(height: 4),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text('${context.pageNumber} / ${context.pagesCount}',
+                      style: pw.TextStyle(fontSize: 9)),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
 
-    return pdf; // return the generated PDF document
+    return pdf;
   }
 
-// function to generate report content
   List<pw.Widget> generateReportContent() {
     List<pw.Widget> content = [];
 
-    // loop through the question results for dynamic content
-    content.addAll(SessionData.questionResults.map((result) {
-      return pw.Column(
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        children: [
-          pw.Text('Q: ${result.question}',
-              style:
-                  pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold)),
-          pw.SizedBox(height: 4),
-          pw.Text(
-            '(Time: ${SessionData.formatTime(result.timestamp)} \t\t Category: ${result.category})',
-            style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
-          ),
-          pw.SizedBox(height: 6),
-          pw.Text('${result.hexagram1Description}',
-              style: pw.TextStyle(fontSize: 11)),
-          pw.SizedBox(height: 4),
-          if (result.hexagram2Description != null)
-            pw.Text('${result.hexagram2Description}',
+    for (var i = 0; i < SessionData.questionResults.length; i++) {
+      var result = SessionData.questionResults[i];
+
+      content.add(
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              'Q: ${result.question}',
+              style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 5),
+            pw.Text(
+              '(Time: ${SessionData.formatTime(result.timestamp)} | Category: ${result.category})',
+              style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text('${result.hexagram1Description}',
                 style: pw.TextStyle(fontSize: 11)),
-          pw.SizedBox(height: 6),
-          pw.Text('Comments:',
-              style:
-                  pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold)),
-          pw.SizedBox(height: 4),
-          pw.Text('${result.interpretation}',
-              style: pw.TextStyle(fontSize: 10)),
-          pw.SizedBox(height: 20),
-        ],
+            if (result.hexagram2Description != null) ...[
+              pw.SizedBox(height: 6),
+              pw.Text('${result.hexagram2Description}',
+                  style: pw.TextStyle(fontSize: 11)),
+            ],
+            pw.SizedBox(height: 6),
+            pw.Text('Comments:',
+                style:
+                    pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 4),
+            pw.Text('${result.interpretation}',
+                style: pw.TextStyle(fontSize: 11)),
+          ],
+        ),
       );
-    }));
+    }
 
     return content;
   }

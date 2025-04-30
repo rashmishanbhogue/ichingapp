@@ -1,4 +1,4 @@
-// shared variables methods globalkeys to be called for validation across the program
+// shared_variables.dart, shared variables methods globalkeys to be called for validation across the program
 
 import 'package:flutter/material.dart';
 

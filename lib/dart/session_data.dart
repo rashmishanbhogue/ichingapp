@@ -1,4 +1,4 @@
-// store and track session data for each user until the pdf report is generated
+// session_data.dart, store and track session data for each user until the pdf report is generated
 import 'package:intl/intl.dart';
 
 class QuestionResult {

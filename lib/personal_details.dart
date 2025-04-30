@@ -1,10 +1,10 @@
 // personal_details.dart, navigate here from main.dart
 import 'package:flutter/material.dart';
 import 'query_details.dart';
-import 'responsive.dart';
-import 'theme.dart';
-import 'shared_variables.dart';
-import 'session_data.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/shared_variables.dart';
+import './dart/session_data.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({super.key});
@@ -240,228 +240,235 @@ class PersonalDetailsState extends State<PersonalDetails> {
     final responsive = Responsive(context);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        // prevent overflow
-        child: Container(
-          width: responsive.scaleWidth(360),
-          padding: EdgeInsets.only(
-            top: responsive.scaleHeight(104),
-            left: responsive.scaleWidth(12),
-            right: responsive.scaleWidth(12),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment
-                .start, // keep "Personal Details" left aligned
-            mainAxisAlignment:
-                MainAxisAlignment.start, // align children at the start
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: responsive.scaleWidth(
-                        12)), // keep left padding for "Personal Details"
-                child: Text(
-                  'Personal Details',
-                  style: TextStyle(
-                    fontSize: responsive.scaleFontSize(22),
-                    color: AppTheme.secondaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(height: responsive.scaleHeight(24)),
-              Center(
-                child: Container(
-                  width: responsive.scaleWidth(312),
-                  child: TextField(
-                    controller: nameController, // controller
-                    focusNode: nameFocusNode, // focus node
-                    decoration: InputDecoration(
-                      hintText: 'Enter Fullname',
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color:
-                            isNameError ? Colors.red : AppTheme.secondaryColor,
-                      )),
-                      labelText: 'Name',
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          nameController.clear();
-
-                          validateName();
-                        },
-                        child: Icon(Icons.cancel_outlined,
-                            color: AppTheme.secondaryColor), // suffix icon
-                      ),
-                      errorText: isNameError
-                          ? validateLetter(nameController.text, 'Full Name')
-                          : null,
-                    ),
-                    style: TextStyle(color: AppTheme.secondaryColor),
-                    onChanged: (value) {
-                      hasNameInteracted = true;
-                      onRealTimeInputChange();
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: responsive.scaleHeight(30)),
-              Center(
-                child: Container(
-                  width: responsive.scaleWidth(312),
-                  child: TextField(
-                    controller: dobController,
-                    focusNode: dobFocusNode,
-                    readOnly: true,
-                    onTap: () => selectDate(context),
-                    decoration: InputDecoration(
-                      hintText: 'DD/MM/YYYY',
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color:
-                            isDobError ? Colors.red : AppTheme.secondaryColor,
-                      )),
-                      labelText: 'Date of Birth',
-                      suffixIcon: Icon(
-                        Icons.calendar_today,
-                        color: AppTheme.secondaryColor,
-                      ), // suffix icon
-                      errorText:
-                          isDobError ? 'Date of Birth cannot be blank' : null,
-                    ),
-                    style: TextStyle(color: AppTheme.secondaryColor),
-                    onChanged: (value) {
-                      hasDobInteracted = true;
-                      onRealTimeInputChange();
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: responsive.scaleHeight(30)),
-              Center(
-                child: Container(
-                  width: responsive.scaleWidth(312),
-                  child: GestureDetector(
-                    onTap: () {
-                      hasTobInteracted = true;
-                      validateTob();
-                      selectTime(context);
-                    },
-                    child: AbsorbPointer(
-                      // prevent keyboard from showing
-                      child: TextField(
-                        controller: tobController,
-                        focusNode: tobFocusNode,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          hintText: 'HH:MM AM/PM',
-                          labelText: 'Time of Birth',
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: isTobError
-                                ? Colors.red
-                                : AppTheme.secondaryColor,
-                          )),
-                          prefixIcon: Icon(
-                            Icons.access_time,
-                            color: AppTheme.secondaryColor,
-                          ),
-                          suffixIcon: Icon(
-                            Icons.arrow_drop_down,
-                            color: AppTheme.secondaryColor,
-                          ),
-                          errorText: isTobError
-                              ? 'Time of Birth cannot be blank'
-                              : null,
-                        ),
-                        style: TextStyle(
-                          color: AppTheme.secondaryColor,
-                        ),
-                        onChanged: (value) {
-                          hasTobInteracted = true;
-                          onRealTimeInputChange();
-                        },
-                      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          // prevent overflow
+          child: Container(
+            width: responsive.scaleWidth(360),
+            padding: EdgeInsets.only(
+              top: responsive.scaleHeight(104),
+              left: responsive.scaleWidth(12),
+              right: responsive.scaleWidth(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment
+                  .start, // keep "Personal Details" left aligned
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // align children at the start
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: responsive.scaleWidth(
+                          12)), // keep left padding for "Personal Details"
+                  child: Text(
+                    'Personal Details',
+                    style: TextStyle(
+                      fontSize: responsive.scaleFontSize(22),
+                      color: AppTheme.secondaryColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: responsive.scaleHeight(30)),
-              Center(
-                child: Container(
-                  width: responsive.scaleWidth(312),
-                  child: TextField(
-                    controller: pobController,
-                    focusNode: pobFocusNode,
-                    decoration: InputDecoration(
-                      hintText: 'Enter Place of Birth',
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color:
-                            isPobError ? Colors.red : AppTheme.secondaryColor,
-                      )),
-                      labelText: 'Place of Birth',
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          pobController.clear();
-                          validatePob();
-                        },
-                        child: Icon(Icons.cancel_outlined,
-                            color: AppTheme.secondaryColor),
-                      ),
-                      errorText: isPobError
-                          ? validateLetter(pobController.text, 'Place of Birth')
-                          : null,
-                    ),
-                    style: TextStyle(color: AppTheme.secondaryColor),
-                    onChanged: (value) {
-                      hasPobInteracted = true;
-                      onRealTimeInputChange();
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: responsive.scaleHeight(40)),
-              Center(
-                child: SizedBox(
-                  width: responsive.scaleWidth(312),
-                  child: ElevatedButton(
-                    onPressed: isFormFilled
-                        ? () {
-                            SessionData.name = nameController.text;
-                            SessionData.dob = dobController.text;
-                            SessionData.tob = tobController.text;
-                            SessionData.pob = pobController.text;
-
-                            // mark the session as started
-                            SessionData.sessionStarted = true;
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => QueryDetails(),
-                              ),
-                            );
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 10,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
+                SizedBox(height: responsive.scaleHeight(24)),
+                Center(
+                  child: Container(
+                    width: responsive.scaleWidth(312),
+                    child: TextField(
+                      controller: nameController, // controller
+                      focusNode: nameFocusNode, // focus node
+                      decoration: InputDecoration(
+                        hintText: 'Enter Fullname',
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: isNameError
+                              ? Colors.red
+                              : AppTheme.secondaryColor,
                         )),
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: responsive.scaleFontSize(16),
+                        labelText: 'Name',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            nameController.clear();
+
+                            validateName();
+                          },
+                          child: Icon(Icons.cancel_outlined,
+                              color: AppTheme.secondaryColor), // suffix icon
+                        ),
+                        errorText: isNameError
+                            ? validateLetter(nameController.text, 'Full Name')
+                            : null,
+                      ),
+                      style: TextStyle(color: AppTheme.secondaryColor),
+                      onChanged: (value) {
+                        hasNameInteracted = true;
+                        onRealTimeInputChange();
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: responsive.scaleHeight(30)),
+                Center(
+                  child: Container(
+                    width: responsive.scaleWidth(312),
+                    child: TextField(
+                      controller: dobController,
+                      focusNode: dobFocusNode,
+                      readOnly: true,
+                      onTap: () => selectDate(context),
+                      decoration: InputDecoration(
+                        hintText: 'DD/MM/YYYY',
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color:
+                              isDobError ? Colors.red : AppTheme.secondaryColor,
+                        )),
+                        labelText: 'Date of Birth',
+                        suffixIcon: Icon(
+                          Icons.calendar_today,
+                          color: AppTheme.secondaryColor,
+                        ), // suffix icon
+                        errorText:
+                            isDobError ? 'Date of Birth cannot be blank' : null,
+                      ),
+                      style: TextStyle(color: AppTheme.secondaryColor),
+                      onChanged: (value) {
+                        hasDobInteracted = true;
+                        onRealTimeInputChange();
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: responsive.scaleHeight(30)),
+                Center(
+                  child: Container(
+                    width: responsive.scaleWidth(312),
+                    child: GestureDetector(
+                      onTap: () {
+                        hasTobInteracted = true;
+                        validateTob();
+                        selectTime(context);
+                      },
+                      child: AbsorbPointer(
+                        // prevent keyboard from showing
+                        child: TextField(
+                          controller: tobController,
+                          focusNode: tobFocusNode,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: 'HH:MM AM/PM',
+                            labelText: 'Time of Birth',
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: isTobError
+                                  ? Colors.red
+                                  : AppTheme.secondaryColor,
+                            )),
+                            prefixIcon: Icon(
+                              Icons.access_time,
+                              color: AppTheme.secondaryColor,
+                            ),
+                            suffixIcon: Icon(
+                              Icons.arrow_drop_down,
+                              color: AppTheme.secondaryColor,
+                            ),
+                            errorText: isTobError
+                                ? 'Time of Birth cannot be blank'
+                                : null,
+                          ),
+                          style: TextStyle(
+                            color: AppTheme.secondaryColor,
+                          ),
+                          onChanged: (value) {
+                            hasTobInteracted = true;
+                            onRealTimeInputChange();
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: responsive.scaleHeight(30)),
+                Center(
+                  child: Container(
+                    width: responsive.scaleWidth(312),
+                    child: TextField(
+                      controller: pobController,
+                      focusNode: pobFocusNode,
+                      decoration: InputDecoration(
+                        hintText: 'Enter Place of Birth',
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color:
+                              isPobError ? Colors.red : AppTheme.secondaryColor,
+                        )),
+                        labelText: 'Place of Birth',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            pobController.clear();
+                            validatePob();
+                          },
+                          child: Icon(Icons.cancel_outlined,
+                              color: AppTheme.secondaryColor),
+                        ),
+                        errorText: isPobError
+                            ? validateLetter(
+                                pobController.text, 'Place of Birth')
+                            : null,
+                      ),
+                      style: TextStyle(color: AppTheme.secondaryColor),
+                      onChanged: (value) {
+                        hasPobInteracted = true;
+                        onRealTimeInputChange();
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: responsive.scaleHeight(40)),
+                Center(
+                  child: SizedBox(
+                    width: responsive.scaleWidth(312),
+                    child: ElevatedButton(
+                      onPressed: isFormFilled
+                          ? () {
+                              SessionData.name = nameController.text;
+                              SessionData.dob = dobController.text;
+                              SessionData.tob = tobController.text;
+                              SessionData.pob = pobController.text;
+
+                              // mark the session as started
+                              SessionData.sessionStarted = true;
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QueryDetails(),
+                                ),
+                              );
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 10,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          )),
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: responsive.scaleFontSize(16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,4 +1,4 @@
-// define responsiveness for the entire program
+// responsive.dart, define responsiveness for the entire program
 
 import 'package:flutter/widgets.dart';
 

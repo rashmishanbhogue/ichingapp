@@ -1,11 +1,11 @@
 // coin_tossing.dart, navigate here from query_details.dart
 import 'package:flutter/material.dart';
-import 'responsive.dart';
 import 'generate_hexagram.dart';
-import 'theme.dart';
-import 'shared_variables.dart';
-import 'session_data.dart';
-import 'compare_hexagram.dart';
+import './dart/responsive.dart';
+import './dart/theme.dart';
+import './dart/shared_variables.dart';
+import './dart/session_data.dart';
+import './dart/compare_hexagram.dart';
 
 class CoinToss extends StatefulWidget {
   const CoinToss({super.key});
