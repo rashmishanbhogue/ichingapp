@@ -1,10 +1,8 @@
 // query_details.dart, navigate here from personal_details.dart
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'coin_tossing.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
-import './dart/shared_variables.dart';
 import './dart/session_data.dart';
 
 class QueryDetails extends StatefulWidget {
@@ -205,7 +203,7 @@ class QueryDetailsState extends State<QueryDetails> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.arrow_back,
                           color: AppTheme.secondaryColor,
                         ),
@@ -240,23 +238,23 @@ class QueryDetailsState extends State<QueryDetails> {
 
                 // Current Date Field
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       enabled: false,
                       controller:
                           currentdateController, // pre-filled default value
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Current Date',
                         labelStyle: TextStyle(color: AppTheme.primaryColor),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         suffixIcon: Icon(
                           Icons.calendar_today,
-                          color: const Color(0xFF79747E),
+                          color: Color(0xFF79747E),
                         ),
                       ),
-                      style: TextStyle(color: const Color(0xFF79747E)),
+                      style: const TextStyle(color: Color(0xFF79747E)),
                     ),
                   ),
                 ),
@@ -265,22 +263,22 @@ class QueryDetailsState extends State<QueryDetails> {
 
                 // Current Time Field
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       enabled: false,
                       controller: currenttimeController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Current Time',
                         labelStyle: TextStyle(color: AppTheme.primaryColor),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        prefixIcon: Icon(Icons.access_time,
-                            color: const Color(0xFF79747E)),
+                        prefixIcon:
+                            Icon(Icons.access_time, color: Color(0xFF79747E)),
                         suffixIcon: Icon(Icons.arrow_drop_down,
-                            color: const Color(0xFF79747E)),
+                            color: Color(0xFF79747E)),
                       ),
-                      style: TextStyle(color: const Color(0xFF79747E)),
+                      style: const TextStyle(color: Color(0xFF79747E)),
                     ),
                   ),
                 ),
@@ -295,10 +293,12 @@ class QueryDetailsState extends State<QueryDetails> {
                       maxLines: null,
                       decoration: InputDecoration(
                         hintText: 'Enter your question',
-                        hintStyle: TextStyle(color: const Color(0xFF79747E)),
-                        border: OutlineInputBorder(),
+                        hintStyle:
+                            const TextStyle(color: const Color(0xFF79747E)),
+                        border: const OutlineInputBorder(),
                         labelText: 'Question',
-                        labelStyle: TextStyle(color: AppTheme.primaryColor),
+                        labelStyle:
+                            const TextStyle(color: AppTheme.primaryColor),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         errorText: isQuestionError
                             ? 'Please enter a valid question'
@@ -306,7 +306,7 @@ class QueryDetailsState extends State<QueryDetails> {
                         counterText:
                             '${questionController.text.split(RegExp(r'\s+')).where((word) => word.isNotEmpty).length}/200 words',
                       ),
-                      style: TextStyle(color: AppTheme.secondaryColor),
+                      style: const TextStyle(color: AppTheme.secondaryColor),
                       controller: questionController,
                       focusNode: questionFocusNode,
                       onChanged: (value) {
@@ -348,7 +348,7 @@ class QueryDetailsState extends State<QueryDetails> {
                                 checkFormFilled();
                               });
                             }),
-                        Text('Business',
+                        const Text('Business',
                             style: TextStyle(color: AppTheme.secondaryColor)),
                       ],
                     ),
@@ -367,7 +367,7 @@ class QueryDetailsState extends State<QueryDetails> {
                                 checkFormFilled();
                               });
                             }),
-                        Text('Love',
+                        const Text('Love',
                             style: TextStyle(color: AppTheme.secondaryColor)),
                       ],
                     ),
@@ -385,7 +385,7 @@ class QueryDetailsState extends State<QueryDetails> {
                                 checkFormFilled();
                               });
                             }),
-                        Text('General',
+                        const Text('General',
                             style: TextStyle(color: AppTheme.secondaryColor)),
                       ],
                     )
@@ -411,7 +411,7 @@ class QueryDetailsState extends State<QueryDetails> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        CoinToss()), // navigate to CoinToss()
+                                        const CoinToss()), // navigate to CoinToss()
                               );
                             }
                           : null,

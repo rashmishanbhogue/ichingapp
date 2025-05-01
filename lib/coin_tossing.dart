@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'generate_hexagram.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
-import './dart/shared_variables.dart';
 import './dart/session_data.dart';
 import './dart/compare_hexagram.dart';
 

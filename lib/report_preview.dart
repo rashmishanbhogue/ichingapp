@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
 import './dart/responsive.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';
@@ -48,7 +46,7 @@ class ReportPreview extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.arrow_back,
                           color: AppTheme.secondaryColor,
                         ),
@@ -95,7 +93,7 @@ class ReportPreview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         width: responsive.scaleWidth(310),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +114,7 @@ class ReportPreview extends StatelessWidget {
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Expanded(
                                   child: Text(
-                                    '${SessionData.name}',
+                                    '$SessionData.name',
                                     style: TextStyle(
                                       fontSize: responsive.scaleFontSize(16),
                                       color: AppTheme.secondaryColor,
@@ -141,7 +139,7 @@ class ReportPreview extends StatelessWidget {
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '${SessionData.dob}',
+                                  '$SessionData.dob',
                                   style: TextStyle(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
@@ -165,7 +163,7 @@ class ReportPreview extends StatelessWidget {
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '${SessionData.pob}',
+                                  '$SessionData.pob',
                                   style: TextStyle(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
@@ -189,7 +187,7 @@ class ReportPreview extends StatelessWidget {
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '${SessionData.currentDate}',
+                                  '$SessionData.currentDate',
                                   style: TextStyle(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
@@ -235,7 +233,7 @@ class ReportPreview extends StatelessWidget {
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Text(
-                                        '${result.hexagram1Description}',
+                                        '$result.hexagram1Description',
                                         style: TextStyle(
                                           fontFamily: 'Roboto',
                                           fontSize:
@@ -276,7 +274,7 @@ class ReportPreview extends StatelessWidget {
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Text(
-                                        '${result.interpretation}',
+                                        '$result.interpretation',
                                         style: TextStyle(
                                           fontFamily: 'Roboto',
                                           fontSize:
@@ -332,7 +330,8 @@ class ReportPreview extends StatelessWidget {
                           ),
                           backgroundColor:
                               AppTheme.primaryColor, // light purple background
-                          duration: Duration(seconds: 2), // show for 2 seconds
+                          duration:
+                              const Duration(seconds: 2), // show for 2 seconds
                         ),
                       );
 
@@ -386,7 +385,7 @@ class ReportPreview extends StatelessWidget {
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: AppTheme.primaryColor,
                           width: 1,
                         ),
@@ -420,9 +419,9 @@ class ReportPreview extends StatelessWidget {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a5,
-        margin: pw.EdgeInsets.all(20),
+        margin: const pw.EdgeInsets.all(20),
         header: (context) => pw.Container(
-          margin: pw.EdgeInsets.symmetric(horizontal: 20),
+          margin: const pw.EdgeInsets.symmetric(horizontal: 20),
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
@@ -457,13 +456,13 @@ class ReportPreview extends StatelessWidget {
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text('Name: ${SessionData.name}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                   pw.Text('DoB: ${SessionData.dob}, ${SessionData.tob}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                   pw.Text('PoB: ${SessionData.pob}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                   pw.Text('Consultation Date: ${SessionData.currentDate}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                 ],
               ),
               pw.Divider(thickness: 1),
@@ -473,7 +472,7 @@ class ReportPreview extends StatelessWidget {
         ),
         build: (context) => [
           pw.Container(
-            margin: pw.EdgeInsets.symmetric(horizontal: 22),
+            margin: const pw.EdgeInsets.symmetric(horizontal: 22),
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: content,
@@ -481,7 +480,7 @@ class ReportPreview extends StatelessWidget {
           ),
         ],
         footer: (context) => pw.Container(
-          margin: pw.EdgeInsets.symmetric(horizontal: 20),
+          margin: const pw.EdgeInsets.symmetric(horizontal: 20),
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.stretch,
             children: [
@@ -495,33 +494,33 @@ class ReportPreview extends StatelessWidget {
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text('Firm Address Line 1 - A',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 2 - A',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 3 - A',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text('Firm Address Line 1 - B',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 2 - B',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 3 - B',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text('Firm Address Line 1 - C',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 2 - C',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 3 - C',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                 ],
@@ -532,7 +531,7 @@ class ReportPreview extends StatelessWidget {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text('${context.pageNumber} / ${context.pagesCount}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                 ],
               ),
             ],
@@ -564,20 +563,20 @@ class ReportPreview extends StatelessWidget {
               style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 4),
-            pw.Text('${result.hexagram1Description}',
-                style: pw.TextStyle(fontSize: 11)),
+            pw.Text('$result.hexagram1Description',
+                style: const pw.TextStyle(fontSize: 11)),
             if (result.hexagram2Description != null) ...[
               pw.SizedBox(height: 6),
               pw.Text('${result.hexagram2Description}',
-                  style: pw.TextStyle(fontSize: 11)),
+                  style: const pw.TextStyle(fontSize: 11)),
             ],
             pw.SizedBox(height: 6),
             pw.Text('Comments:',
                 style:
                     pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
             pw.SizedBox(height: 4),
-            pw.Text('${result.interpretation}',
-                style: pw.TextStyle(fontSize: 11)),
+            pw.Text('$result.interpretation',
+                style: const pw.TextStyle(fontSize: 11)),
           ],
         ),
       );

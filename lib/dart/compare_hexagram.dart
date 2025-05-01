@@ -1,5 +1,6 @@
 // compare the generated hexagram(s) with the predefined hexagrams in define_hexagram.dart
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'define_hexagram.dart';
 import 'session_data.dart';
 import 'svg_generator.dart';
@@ -37,23 +38,23 @@ class CompareHexagram {
 
   // normalize `yinchanging` and `yangchanging` for matching
   List<String> normaliseHexagram(List<String> hexagram) {
-    print("Normalizing hexagram: $hexagram");
+    debugPrint("Normalizing hexagram: $hexagram");
     final normalized = hexagram.map((line) {
       if (line == 'yinchanging') return 'yin';
       if (line == 'yangchanging') return 'yang';
       return line;
     }).toList();
-    print("Normalized hexagram: $normalized");
+    debugPrint("Normalized hexagram: $normalized");
     return normalized;
   }
 
   // find matching hexagram pattern
   Hexagram findHexagramMatch(List<String> pattern) {
-    print("Debug: Finding match for pattern: $pattern");
+    debugPrint("Debug: Finding match for pattern: $pattern");
     for (final hexagram in predefinedHexagrams) {
-      print("Comparing with hexagram: ${hexagram.pattern}");
-      if (ListEquality().equals(hexagram.pattern, pattern)) {
-        print("Match found: ${hexagram.hexNo}");
+      debugPrint("Comparing with hexagram: ${hexagram.pattern}");
+      if (const ListEquality().equals(hexagram.pattern, pattern)) {
+        debugPrint("Match found: ${hexagram.hexNo}");
         return hexagram; // return the matching hexagram directly
       }
     }
@@ -65,15 +66,15 @@ class CompareHexagram {
     // step 1: do not normalize before SVG generation
     final List<String> hexagram1Pattern = List<String>.from(
         SessionData.hexagram1!); // use original pattern for SVG
-    print("SessionData.hexagram1: ${SessionData.hexagram1}");
-    print("Hexagram1 pattern before normalization: $hexagram1Pattern");
+    debugPrint("SessionData.hexagram1: ${SessionData.hexagram1}");
+    debugPrint("Hexagram1 pattern before normalization: $hexagram1Pattern");
 
     final hexagram2Pattern = SessionData.hexagram2 != null
         ? List<String>.from(
             SessionData.hexagram2!) // use original pattern for SVG
         : null;
-    print("Hexagram1 pattern: $hexagram1Pattern");
-    print("Hexagram2 pattern: $hexagram2Pattern");
+    debugPrint("Hexagram1 pattern: $hexagram1Pattern");
+    debugPrint("Hexagram2 pattern: $hexagram2Pattern");
 
     // step 2: generate hexagram2 if necessary
     final List<String>? hexagram2Generated = SessionData.hexagram1 != null
@@ -88,11 +89,11 @@ class CompareHexagram {
     // step 4: match patterns (normalize only for comparison)
     final hexagram1Match =
         findHexagramMatch(normaliseHexagram(hexagram1Pattern));
-    print("Hexagram1 match: ${hexagram1Match?.hexNo}");
+    debugPrint("Hexagram1 match: ${hexagram1Match.hexNo}");
     final hexagram2Match = normalisedHexagram2Pattern != null
         ? findHexagramMatch(normalisedHexagram2Pattern)
         : null;
-    print("Hexagram2 match: ${hexagram2Match?.hexNo}");
+    debugPrint("Hexagram2 match: ${hexagram2Match?.hexNo}");
 
     // step 5: store results
     matchedHexagram1Title = hexagram1Match.title;
@@ -139,7 +140,7 @@ class CompareHexagram {
     }
 
     // add debug print to see the generated SVG content
-    print("Generated SVG content: $svgContent");
+    debugPrint("Generated SVG content: $svgContent");
 
     // return the complete SVG string
     return '''<svg xmlns="http://www.w3.org/2000/svg" width="158" height="$totalHeight" viewBox="0 0 158 $totalHeight">

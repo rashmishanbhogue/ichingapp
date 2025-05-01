@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'query_details.dart';
 import 'report_preview.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';
-import './dart/shared_variables.dart';
 import './dart/compare_hexagram.dart';
 
 class HexagramDetails extends StatefulWidget {
@@ -135,7 +133,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.arrow_back,
                             color: AppTheme.secondaryColor,
                           ),
@@ -181,14 +179,14 @@ class HexagramDetailsState extends State<HexagramDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Container(
+                        child: SizedBox(
                           width: responsive.scaleWidth(310),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // hexagram 1 title and description
                               Text(
-                                '${SessionData.hexagram1Title}',
+                                '$SessionData.hexagram1Title',
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontSize: responsive.scaleFontSize(16),
@@ -199,7 +197,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               ),
                               SizedBox(height: responsive.scaleHeight(8)),
                               Text(
-                                '${SessionData.hexagram1Definition}',
+                                '$SessionData.hexagram1Definition',
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontSize: responsive.scaleFontSize(16),
@@ -251,13 +249,13 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                   minLines: 3,
                                   maxLines: 4,
                                   decoration: InputDecoration(
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                         color: AppTheme.disabledTextColor),
                                     hintText: 'Type Here',
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                     labelText: 'Enter Comments',
-                                    labelStyle:
-                                        TextStyle(color: AppTheme.primaryColor),
+                                    labelStyle: const TextStyle(
+                                        color: AppTheme.primaryColor),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     errorText: isCommentsError
@@ -307,8 +305,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
                               // parse the time with formatTime function from sessiondata
                               DateTime timestamp = DateTime.now();
-                              String formattedTime =
-                                  SessionData.formatTime(timestamp);
+
                               String hexagram1Description =
                                   SessionData.hexagram1Definition;
                               String? hexagram2Description =
@@ -329,7 +326,8 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ReportPreview()),
+                                    builder: (context) =>
+                                        const ReportPreview()),
                               );
                             }
                           : null,
@@ -363,8 +361,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
                               // parse the time with formatTime function from sessiondata
                               DateTime timestamp = DateTime.now();
-                              String formattedTime =
-                                  SessionData.formatTime(timestamp);
+
                               String hexagram1Description =
                                   SessionData.hexagram1Definition;
                               String? hexagram2Description =
@@ -385,7 +382,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => QueryDetails()),
+                                    builder: (context) => const QueryDetails()),
                               );
                             }
                           : null,

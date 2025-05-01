@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'hexagram_details.dart';
-import 'coin_tossing.dart';
 import './dart/responsive.dart';
 import './dart/compare_hexagram.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';
-import './dart/shared_variables.dart';
-import './dart/svg_generator.dart';
 
 class GenerateHexagram extends StatefulWidget {
   const GenerateHexagram({super.key});
