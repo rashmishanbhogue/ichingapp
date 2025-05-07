@@ -16,26 +16,65 @@ class AppTheme {
 
   static const fontFamily = 'Roboto';
 
+  // Default Font Sizes, Letter Spacing, and Font Weights
+  static const double headingFontSize = 22.0;
+  static const double bodyFontSize = 16.0;
+  static const double labelFontSize = 16.0;
+  static const double buttonFontSize = 16.0;
+  static const double letterSpacing = 0.5;
+
+  // Text Styles for various elements
   static const TextStyle headingStyle = TextStyle(
-    fontSize: 22,
+    fontSize: headingFontSize,
     fontWeight: FontWeight.bold,
     color: secondaryColor,
+    letterSpacing: letterSpacing,
   );
 
   static const TextStyle labelStyle = TextStyle(
-    fontSize: 16,
+    fontSize: labelFontSize,
     fontWeight: FontWeight.w500,
     color: labelColor,
+    letterSpacing: letterSpacing,
   );
 
   static const TextStyle errorTextStyle = TextStyle(
     fontSize: 14,
     color: errorColor,
+    letterSpacing: letterSpacing,
+  );
+
+  static const TextStyle bodyLarge = TextStyle(
+    fontSize: bodyFontSize,
+    color: secondaryColor,
+    letterSpacing: letterSpacing,
+  );
+
+  static const TextStyle headlineMedium = TextStyle(
+    fontSize: headingFontSize,
+    fontWeight: FontWeight.bold,
+    color: secondaryColor,
+    letterSpacing: letterSpacing,
+  );
+
+  static const TextStyle bodyMedium = TextStyle(
+    fontSize: 14.0,
+    color: errorColor,
+    letterSpacing: letterSpacing,
+  );
+
+  // Button Text Style
+  static const TextStyle buttonTextStyle = TextStyle(
+    fontSize: buttonFontSize,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    letterSpacing: letterSpacing,
   );
 
   static const InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
     labelStyle: labelStyle,
-    hintStyle: TextStyle(color: hintColor, fontSize: 14),
+    hintStyle:
+        TextStyle(color: hintColor, fontSize: 14, letterSpacing: letterSpacing),
     errorStyle: errorTextStyle,
     border: OutlineInputBorder(
       borderSide: BorderSide(color: borderColor),
@@ -53,37 +92,28 @@ class AppTheme {
         secondary: secondaryColor,
         tertiary: accentColor,
       ),
-      textTheme: TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: 22.0,
-          fontWeight: FontWeight.bold,
-          color: secondaryColor,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16.0,
-          color: secondaryColor,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14.0,
-          color: errorColor,
-        ),
+      textTheme: const TextTheme(
+        headlineLarge: headlineMedium, // Use AppTheme's headlineMedium
+        bodyLarge: bodyLarge, // Use AppTheme's bodyLarge
+        bodyMedium: bodyMedium, // Use AppTheme's bodyMedium
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
+          textStyle: buttonTextStyle, // Use AppTheme's buttonTextStyle
         ),
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         border: OutlineInputBorder(
           borderSide: BorderSide(
-            color: const Color(0xFF79747E), // Default border color
+            color: Color(0xFF79747E), // Default border color
             width: 1.0, // Default thickness for the border
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: const Color(0xFF79747E), // Enabled border color
+            color: Color(0xFF79747E), // Enabled border color
             width: 1.0, // Thickness of the enabled border
           ),
         ),
@@ -105,8 +135,12 @@ class AppTheme {
             width: 2.0, // Thickness when focused and there's an error
           ),
         ),
-        hintStyle: TextStyle(color: const Color(0xFF79747E)), // Hint text color
-        labelStyle: TextStyle(color: primaryColor), // Label text color
+        hintStyle: TextStyle(
+            color: Color(0xFF79747E),
+            letterSpacing: letterSpacing), // Hint text color
+        labelStyle: TextStyle(
+            color: primaryColor,
+            letterSpacing: letterSpacing), // Label text color
         floatingLabelBehavior:
             FloatingLabelBehavior.always, // Floating label behavior
       ),

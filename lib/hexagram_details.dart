@@ -1,11 +1,11 @@
+// hexagram_details.dart, where the user reads the descriptions and inputs his
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'query_details.dart';
 import 'report_preview.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';
-import './dart/shared_variables.dart';
 import './dart/compare_hexagram.dart';
 
 class HexagramDetails extends StatefulWidget {
@@ -76,7 +76,6 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
   void validateComments() {
     setState(() {
-      // isQuestionError = hasQuestionInteracted && !isQuestionValid();
       isCommentsError = hasCommentsInteracted && commentsController.text.isEmpty
           ? true
           : !isCommentsValid();
@@ -107,7 +106,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
           true, // allow the layout to adjust when the keyboard appears
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).unfocus(); // hides the keyboard
+          FocusScope.of(context).unfocus(); // hide the keyboard
         },
         child: Column(
           children: [
@@ -124,9 +123,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                 children: [
                   // Back button
                   InkWell(
-                    onTap: () {
-                      Navigator.pop(context); // navigate back
-                    },
+                    onTap: () => Navigator.pop(context), // navigate back
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: responsive.scaleWidth(10),
@@ -135,7 +132,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.arrow_back,
                             color: AppTheme.secondaryColor,
                           ),
@@ -156,10 +153,8 @@ class HexagramDetailsState extends State<HexagramDetails> {
                     padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
                     child: Text(
                       'Hexagram Details',
-                      style: TextStyle(
+                      style: AppTheme.headingStyle.copyWith(
                         fontSize: responsive.scaleFontSize(22),
-                        color: AppTheme.secondaryColor,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -181,31 +176,34 @@ class HexagramDetailsState extends State<HexagramDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Container(
+                        child: SizedBox(
                           width: responsive.scaleWidth(310),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // hexagram 1 title and description
-                              Text(
-                                '${SessionData.hexagram1Title}',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: responsive.scaleFontSize(16),
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.15,
-                                  color: AppTheme.secondaryColor,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    SessionData.hex1No,
+                                    style: AppTheme.headingStyle.copyWith(
+                                      fontSize: responsive.scaleFontSize(16),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    SessionData.hex1Title,
+                                    style: AppTheme.headingStyle.copyWith(
+                                      fontSize: responsive.scaleFontSize(16),
+                                    ),
+                                  ),
+                                ],
                               ),
                               SizedBox(height: responsive.scaleHeight(8)),
                               Text(
-                                '${SessionData.hexagram1Definition}',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                SessionData.hex1Definition,
+                                style: AppTheme.bodyLarge.copyWith(
                                   fontSize: responsive.scaleFontSize(16),
-                                  fontWeight: FontWeight.normal,
-                                  letterSpacing: 0.5,
-                                  color: AppTheme.secondaryColor,
                                 ),
                                 textAlign: TextAlign.left,
                                 maxLines: null,
@@ -215,25 +213,28 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               // hexagram 2 title and description
                               if (CompareHexagram.hasChangingLines(
                                   SessionData.hexagram1!)) ...[
-                                Text(
-                                  '${SessionData.hexagram2Title}',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: responsive.scaleFontSize(16),
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
-                                    color: AppTheme.secondaryColor,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${SessionData.hex2No}',
+                                      style: AppTheme.headingStyle.copyWith(
+                                        fontSize: responsive.scaleFontSize(16),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      '${SessionData.hex2Title}',
+                                      style: AppTheme.headingStyle.copyWith(
+                                        fontSize: responsive.scaleFontSize(16),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(height: responsive.scaleHeight(8)),
                                 Text(
-                                  '${SessionData.hexagram2Definition}',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  '${SessionData.hex2Definition}',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
-                                    fontWeight: FontWeight.normal,
-                                    letterSpacing: 0.5,
-                                    color: AppTheme.secondaryColor,
                                   ),
                                   textAlign: TextAlign.left,
                                   maxLines: null,
@@ -241,7 +242,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                 ),
                                 SizedBox(height: responsive.scaleHeight(22)),
                               ],
-                              // dynamic size textField
+                              // dynamic size textfield
                               Container(
                                 width: responsive.scaleWidth(300),
                                 constraints: BoxConstraints(
@@ -251,13 +252,13 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                   minLines: 3,
                                   maxLines: 4,
                                   decoration: InputDecoration(
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                         color: AppTheme.disabledTextColor),
                                     hintText: 'Type Here',
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                     labelText: 'Enter Comments',
-                                    labelStyle:
-                                        TextStyle(color: AppTheme.primaryColor),
+                                    labelStyle: const TextStyle(
+                                        color: AppTheme.primaryColor),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     errorText: isCommentsError
@@ -287,7 +288,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
               ),
             ),
 
-            // non-scrollable area - textField and buttons
+            // non-scrollable area - textfield and buttons
             Container(
               width: responsive.scaleWidth(360),
               padding: EdgeInsets.symmetric(
@@ -307,19 +308,22 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
                               // parse the time with formatTime function from sessiondata
                               DateTime timestamp = DateTime.now();
-                              String formattedTime =
-                                  SessionData.formatTime(timestamp);
+
                               String hexagram1Description =
-                                  SessionData.hexagram1Definition;
+                                  SessionData.hex1Definition;
                               String? hexagram2Description =
-                                  SessionData.hexagram2Definition;
+                                  SessionData.hex2Definition;
 
                               // create a new questionresult object with the form data
                               QuestionResult result = QuestionResult(
                                   question: SessionData.query,
                                   category: SessionData.sessionCategory,
                                   timestamp: timestamp,
+                                  hexagram1No: SessionData.hex1No,
+                                  hexagram1Title: SessionData.hex1Title,
                                   hexagram1Description: hexagram1Description,
+                                  hexagram2No: SessionData.hex2No,
+                                  hexagram2Title: SessionData.hex2Title,
                                   hexagram2Description: hexagram2Description,
                                   interpretation: SessionData.comments);
 
@@ -329,7 +333,8 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ReportPreview()),
+                                    builder: (context) =>
+                                        const ReportPreview()),
                               );
                             }
                           : null,
@@ -363,19 +368,22 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
                               // parse the time with formatTime function from sessiondata
                               DateTime timestamp = DateTime.now();
-                              String formattedTime =
-                                  SessionData.formatTime(timestamp);
+
                               String hexagram1Description =
-                                  SessionData.hexagram1Definition;
+                                  SessionData.hex1Definition;
                               String? hexagram2Description =
-                                  SessionData.hexagram2Definition;
+                                  SessionData.hex2Definition;
 
                               // create a new questionresult object with the form data
                               QuestionResult result = QuestionResult(
                                   question: SessionData.query,
                                   category: SessionData.sessionCategory,
                                   timestamp: timestamp,
+                                  hexagram1No: SessionData.hex1No,
+                                  hexagram1Title: SessionData.hex1Title,
                                   hexagram1Description: hexagram1Description,
+                                  hexagram2No: SessionData.hex2No,
+                                  hexagram2Title: SessionData.hex2Title,
                                   hexagram2Description: hexagram2Description,
                                   interpretation: SessionData.comments);
 
@@ -385,7 +393,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => QueryDetails()),
+                                    builder: (context) => const QueryDetails()),
                               );
                             }
                           : null,

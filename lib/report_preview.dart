@@ -1,11 +1,10 @@
 // report_preview.dart, view and download report in pdf formatted for a5
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
 import './dart/responsive.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';
@@ -48,14 +47,14 @@ class ReportPreview extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.arrow_back,
                           color: AppTheme.secondaryColor,
                         ),
                         SizedBox(width: responsive.scaleWidth(4)),
                         Text(
                           'Back',
-                          style: TextStyle(
+                          style: AppTheme.headingStyle.copyWith(
                             fontSize: responsive.scaleFontSize(16),
                             color: AppTheme.primaryColor,
                           ),
@@ -69,10 +68,9 @@ class ReportPreview extends StatelessWidget {
                   padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
                   child: Text(
                     'I-Ching Report',
-                    style: TextStyle(
+                    style: AppTheme.headingStyle.copyWith(
                       fontSize: responsive.scaleFontSize(22),
                       color: AppTheme.secondaryColor,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -95,7 +93,7 @@ class ReportPreview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         width: responsive.scaleWidth(310),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,19 +103,17 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Name',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Expanded(
                                   child: Text(
-                                    '${SessionData.name}',
-                                    style: TextStyle(
+                                    SessionData.name,
+                                    style: AppTheme.bodyLarge.copyWith(
                                       fontSize: responsive.scaleFontSize(16),
                                       color: AppTheme.secondaryColor,
                                     ),
@@ -131,18 +127,23 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Date of Birth',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '${SessionData.dob}',
-                                  style: TextStyle(
+                                  SessionData.dob,
+                                  style: AppTheme.bodyLarge.copyWith(
+                                    fontSize: responsive.scaleFontSize(16),
+                                    color: AppTheme.secondaryColor,
+                                  ),
+                                ),
+                                Text(
+                                  ',\t${SessionData.tob}',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
                                   ),
@@ -155,18 +156,16 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Place of Birth',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '${SessionData.pob}',
-                                  style: TextStyle(
+                                  SessionData.pob,
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
                                   ),
@@ -179,18 +178,16 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Consultation Date',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '${SessionData.currentDate}',
-                                  style: TextStyle(
+                                  SessionData.currentDate,
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
                                   ),
@@ -202,7 +199,6 @@ class ReportPreview extends StatelessWidget {
                             // loop through question results and render them
                             Column(
                               children: [
-                                // use the spread operator to inject the list of widgets generated by map
                                 ...SessionData.questionResults.map(
                                   (result) => Column(
                                     crossAxisAlignment:
@@ -210,12 +206,10 @@ class ReportPreview extends StatelessWidget {
                                     children: [
                                       Text(
                                         'Q: ${result.question}',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
@@ -223,25 +217,46 @@ class ReportPreview extends StatelessWidget {
                                           height: responsive.scaleHeight(4)),
                                       Text(
                                         '(Time: ${SessionData.formatTime(result.timestamp)}  \t\t Category: ${result.category})',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(14),
                                           fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            result.hexagram1No,
+                                            style: AppTheme.bodyLarge.copyWith(
+                                              fontSize:
+                                                  responsive.scaleFontSize(14),
+                                              fontWeight: FontWeight.w600,
+                                              color: AppTheme.secondaryColor,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            result.hexagram1Title,
+                                            style: AppTheme.bodyLarge.copyWith(
+                                              fontSize:
+                                                  responsive.scaleFontSize(14),
+                                              fontWeight: FontWeight.w600,
+                                              color: AppTheme.secondaryColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                          height: responsive.scaleHeight(4)),
                                       Text(
-                                        '${result.hexagram1Description}',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        result.hexagram1Description,
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.normal,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
@@ -249,40 +264,71 @@ class ReportPreview extends StatelessWidget {
                                           height: responsive.scaleHeight(4)),
                                       // conditionally display hexagram 2 description if it exists
                                       if (result.hexagram2Description != null)
-                                        Text(
-                                          '${result.hexagram2Description}',
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize:
-                                                responsive.scaleFontSize(16),
-                                            fontWeight: FontWeight.normal,
-                                            letterSpacing: 0.5,
-                                            color: AppTheme.secondaryColor,
-                                          ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${result.hexagram2No}',
+                                                  style: AppTheme.bodyLarge
+                                                      .copyWith(
+                                                    fontSize: responsive
+                                                        .scaleFontSize(14),
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        AppTheme.secondaryColor,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  '${result.hexagram2Title}',
+                                                  style: AppTheme.bodyLarge
+                                                      .copyWith(
+                                                    fontSize: responsive
+                                                        .scaleFontSize(14),
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        AppTheme.secondaryColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height:
+                                                    responsive.scaleHeight(4)),
+                                            Text(
+                                              '${result.hexagram2Description}',
+                                              style:
+                                                  AppTheme.bodyLarge.copyWith(
+                                                fontSize: responsive
+                                                    .scaleFontSize(16),
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme.secondaryColor,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Text(
                                         'Comments',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.15,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Text(
-                                        '${result.interpretation}',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        result.interpretation,
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.normal,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
@@ -325,14 +371,13 @@ class ReportPreview extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               'Downloading PDF, please wait...',
-                              style: TextStyle(
+                              style: AppTheme.bodyLarge.copyWith(
                                   color: Colors.white,
                                   fontSize: responsive.scaleFontSize(16)),
                             ),
                           ),
-                          backgroundColor:
-                              AppTheme.primaryColor, // light purple background
-                          duration: Duration(seconds: 2), // show for 2 seconds
+                          backgroundColor: AppTheme.primaryColor,
+                          duration: const Duration(seconds: 2),
                         ),
                       );
 
@@ -361,7 +406,8 @@ class ReportPreview extends StatelessWidget {
                     ),
                     child: Text(
                       'Download Report',
-                      style: TextStyle(
+                      style: AppTheme.bodyLarge.copyWith(
+                        color: Colors.white,
                         fontSize: responsive.scaleFontSize(16),
                       ),
                     ),
@@ -386,7 +432,7 @@ class ReportPreview extends StatelessWidget {
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: AppTheme.primaryColor,
                           width: 1,
                         ),
@@ -394,7 +440,7 @@ class ReportPreview extends StatelessWidget {
                     ),
                     child: Text(
                       'Exit',
-                      style: TextStyle(
+                      style: AppTheme.bodyLarge.copyWith(
                         fontSize: responsive.scaleFontSize(16),
                         color: AppTheme.primaryColor,
                       ),
@@ -420,9 +466,9 @@ class ReportPreview extends StatelessWidget {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a5,
-        margin: pw.EdgeInsets.all(20),
+        margin: const pw.EdgeInsets.all(20),
         header: (context) => pw.Container(
-          margin: pw.EdgeInsets.symmetric(horizontal: 20),
+          margin: const pw.EdgeInsets.symmetric(horizontal: 20),
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
@@ -457,13 +503,13 @@ class ReportPreview extends StatelessWidget {
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text('Name: ${SessionData.name}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                   pw.Text('DoB: ${SessionData.dob}, ${SessionData.tob}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                   pw.Text('PoB: ${SessionData.pob}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                   pw.Text('Consultation Date: ${SessionData.currentDate}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                 ],
               ),
               pw.Divider(thickness: 1),
@@ -473,7 +519,7 @@ class ReportPreview extends StatelessWidget {
         ),
         build: (context) => [
           pw.Container(
-            margin: pw.EdgeInsets.symmetric(horizontal: 22),
+            margin: const pw.EdgeInsets.symmetric(horizontal: 22),
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: content,
@@ -481,7 +527,7 @@ class ReportPreview extends StatelessWidget {
           ),
         ],
         footer: (context) => pw.Container(
-          margin: pw.EdgeInsets.symmetric(horizontal: 20),
+          margin: const pw.EdgeInsets.symmetric(horizontal: 20),
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.stretch,
             children: [
@@ -495,33 +541,33 @@ class ReportPreview extends StatelessWidget {
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text('Firm Address Line 1 - A',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 2 - A',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 3 - A',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text('Firm Address Line 1 - B',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 2 - B',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 3 - B',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text('Firm Address Line 1 - C',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 2 - C',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('Firm Address Line 3 - C',
-                          style: pw.TextStyle(fontSize: 9)),
+                          style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                 ],
@@ -532,7 +578,7 @@ class ReportPreview extends StatelessWidget {
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   pw.Text('${context.pageNumber} / ${context.pagesCount}',
-                      style: pw.TextStyle(fontSize: 9)),
+                      style: const pw.TextStyle(fontSize: 9)),
                 ],
               ),
             ],
@@ -564,20 +610,26 @@ class ReportPreview extends StatelessWidget {
               style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 4),
-            pw.Text('${result.hexagram1Description}',
-                style: pw.TextStyle(fontSize: 11)),
+            pw.Text(result.hexagram1Title,
+                style: const pw.TextStyle(fontSize: 11)),
+            pw.SizedBox(height: 4),
+            pw.Text(result.hexagram1Description,
+                style: const pw.TextStyle(fontSize: 11)),
             if (result.hexagram2Description != null) ...[
               pw.SizedBox(height: 6),
+              pw.Text('${result.hexagram2Title}',
+                  style: const pw.TextStyle(fontSize: 11)),
+              pw.SizedBox(height: 4),
               pw.Text('${result.hexagram2Description}',
-                  style: pw.TextStyle(fontSize: 11)),
+                  style: const pw.TextStyle(fontSize: 11)),
             ],
             pw.SizedBox(height: 6),
             pw.Text('Comments:',
                 style:
                     pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
             pw.SizedBox(height: 4),
-            pw.Text('${result.interpretation}',
-                style: pw.TextStyle(fontSize: 11)),
+            pw.Text(result.interpretation,
+                style: const pw.TextStyle(fontSize: 11)),
           ],
         ),
       );

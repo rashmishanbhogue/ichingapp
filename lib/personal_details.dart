@@ -213,11 +213,12 @@ class PersonalDetailsState extends State<PersonalDetails> {
         return Theme(
           data: ThemeData.light().copyWith(
             primaryColor: AppTheme.primaryColor,
-            colorScheme:
-                ColorScheme.light(primary: AppTheme.primaryColor).copyWith(
+            colorScheme: const ColorScheme.light(primary: AppTheme.primaryColor)
+                .copyWith(
               secondary: AppTheme.secondaryColor,
             ),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -274,7 +275,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                 ),
                 SizedBox(height: responsive.scaleHeight(24)),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       controller: nameController, // controller
@@ -294,14 +295,14 @@ class PersonalDetailsState extends State<PersonalDetails> {
 
                             validateName();
                           },
-                          child: Icon(Icons.cancel_outlined,
+                          child: const Icon(Icons.cancel_outlined,
                               color: AppTheme.secondaryColor), // suffix icon
                         ),
                         errorText: isNameError
                             ? validateLetter(nameController.text, 'Full Name')
                             : null,
                       ),
-                      style: TextStyle(color: AppTheme.secondaryColor),
+                      style: const TextStyle(color: AppTheme.secondaryColor),
                       onChanged: (value) {
                         hasNameInteracted = true;
                         onRealTimeInputChange();
@@ -311,7 +312,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                 ),
                 SizedBox(height: responsive.scaleHeight(30)),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       controller: dobController,
@@ -326,14 +327,14 @@ class PersonalDetailsState extends State<PersonalDetails> {
                               isDobError ? Colors.red : AppTheme.secondaryColor,
                         )),
                         labelText: 'Date of Birth',
-                        suffixIcon: Icon(
+                        suffixIcon: const Icon(
                           Icons.calendar_today,
                           color: AppTheme.secondaryColor,
                         ), // suffix icon
                         errorText:
                             isDobError ? 'Date of Birth cannot be blank' : null,
                       ),
-                      style: TextStyle(color: AppTheme.secondaryColor),
+                      style: const TextStyle(color: AppTheme.secondaryColor),
                       onChanged: (value) {
                         hasDobInteracted = true;
                         onRealTimeInputChange();
@@ -343,7 +344,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                 ),
                 SizedBox(height: responsive.scaleHeight(30)),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: GestureDetector(
                       onTap: () {
@@ -366,11 +367,11 @@ class PersonalDetailsState extends State<PersonalDetails> {
                                   ? Colors.red
                                   : AppTheme.secondaryColor,
                             )),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.access_time,
                               color: AppTheme.secondaryColor,
                             ),
-                            suffixIcon: Icon(
+                            suffixIcon: const Icon(
                               Icons.arrow_drop_down,
                               color: AppTheme.secondaryColor,
                             ),
@@ -378,7 +379,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                                 ? 'Time of Birth cannot be blank'
                                 : null,
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppTheme.secondaryColor,
                           ),
                           onChanged: (value) {
@@ -392,7 +393,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                 ),
                 SizedBox(height: responsive.scaleHeight(30)),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       controller: pobController,
@@ -410,7 +411,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                             pobController.clear();
                             validatePob();
                           },
-                          child: Icon(Icons.cancel_outlined,
+                          child: const Icon(Icons.cancel_outlined,
                               color: AppTheme.secondaryColor),
                         ),
                         errorText: isPobError
@@ -418,7 +419,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                                 pobController.text, 'Place of Birth')
                             : null,
                       ),
-                      style: TextStyle(color: AppTheme.secondaryColor),
+                      style: const TextStyle(color: AppTheme.secondaryColor),
                       onChanged: (value) {
                         hasPobInteracted = true;
                         onRealTimeInputChange();
@@ -444,7 +445,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => QueryDetails(),
+                                  builder: (context) => const QueryDetails(),
                                 ),
                               );
                             }

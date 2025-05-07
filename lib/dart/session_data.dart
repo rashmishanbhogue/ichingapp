@@ -1,11 +1,16 @@
 // session_data.dart, store and track session data for each user until the pdf report is generated
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 
 class QuestionResult {
   final String question;
   final String category;
   final DateTime timestamp;
+  final String hexagram1No;
+  final String hexagram1Title;
   final String hexagram1Description;
+  final String? hexagram2No; // nullable
+  final String? hexagram2Title; // nullable
   final String? hexagram2Description; // nullable
   final String interpretation;
 
@@ -13,7 +18,11 @@ class QuestionResult {
     required this.question,
     required this.category,
     required this.timestamp,
+    required this.hexagram1No,
+    required this.hexagram1Title,
     required this.hexagram1Description,
+    this.hexagram2No, // nullable
+    this.hexagram2Title, // nullable
     this.hexagram2Description, // nullable
     required this.interpretation,
   });
@@ -29,10 +38,12 @@ class SessionData {
   static String query = '';
   static String sessionCategory = '';
   static String comments = '';
-  static String hexagram1Title = '';
-  static String hexagram1Definition = '';
-  static String? hexagram2Title;
-  static String? hexagram2Definition;
+  static String hex1No = '';
+  static String hex1Title = '';
+  static String hex1Definition = '';
+  static String? hex2No;
+  static String? hex2Title;
+  static String? hex2Definition;
 
   // track all questions asked in the session
   static List<QuestionResult> questionResults = [];
@@ -56,8 +67,12 @@ class SessionData {
     query = '';
     sessionCategory = '';
     comments = '';
-    hexagram1Definition = '';
-    hexagram2Definition = '';
+    hex1No = '';
+    hex1Title = '';
+    hex1Definition = '';
+    hex2No = '';
+    hex2Title = '';
+    hex2Definition = '';
     questionResults.clear();
   }
 
@@ -94,39 +109,23 @@ class SessionData {
 
   static String getFormattedDate(String dateString) {
     try {
-      DateTime parsedDate =
-          DateTime.parse(dateString); // Try parsing the date string
+      DateTime parsedDate = DateTime.parse(dateString); // parse the date string
       return DateFormat('ddMMyyyy')
-          .format(parsedDate); // Format the date as 'MMddyyyy'
+          .format(parsedDate); // format the date as 'MMddyyyy'
     } catch (e) {
-      print(
+      debugPrint(
           "Invalid date format for currentDate, using current date as fallback.");
       return DateFormat('ddMMyyyy')
-          .format(DateTime.now()); // Fallback to current date if parsing fails
+          .format(DateTime.now()); // fallback to current date if parsing fails
     }
   }
 
   String formattedDate = getFormattedDate(SessionData.currentDate);
 
   static String generatePdfFilename() {
-    // // try parsing currentDate in the expected format (yyyy-MM-dd)
-    // DateTime currentDateTime;
-    // try {
-    //   // if currentDate is in 'yyyy-MM-dd' format, it will parse correctly
-    //   currentDateTime = DateTime.parse(SessionData.currentDate);
-    // } catch (e) {
-    //   // if parsing fails (invalid date format), fallback to the current date
-    //   currentDateTime = DateTime.now();
-    //   // optionally, log the error or handle it differently if needed
-    //   print(
-    //       'Invalid date format for currentDate, using current date as fallback.');
-    // }
     String nameWithUnderscores = SessionData.name.replaceAll(' ', '_');
     String date = getFormattedDate(currentDate);
-    // Format the date as ddMMyyyy
-    // String formattedDate = DateFormat('ddMMyyyy').format(currentDateTime);
-    //
-    //return '${SessionData.name.replaceAll(' ', '_')}_$formattedDate.pdf';
+
     return '${nameWithUnderscores}_${date}.pdf';
   }
 }

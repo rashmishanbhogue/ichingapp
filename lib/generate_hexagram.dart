@@ -1,13 +1,12 @@
+// generate_hexagram.dart, generate hexagram(s) based on the throw inputs
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'hexagram_details.dart';
-import 'coin_tossing.dart';
 import './dart/responsive.dart';
 import './dart/compare_hexagram.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';
-import './dart/shared_variables.dart';
-import './dart/svg_generator.dart';
 
 class GenerateHexagram extends StatefulWidget {
   const GenerateHexagram({super.key});
@@ -25,8 +24,8 @@ class GenerateHexagramState extends State<GenerateHexagram> {
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
-    print("SessionData.hexagram1: ${SessionData.hexagram1}");
-    print("SessionData.hexagram2: ${SessionData.hexagram2}");
+    debugPrint("SessionData.hexagram1: ${SessionData.hexagram1}");
+    debugPrint("SessionData.hexagram2: ${SessionData.hexagram2}");
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -42,19 +41,17 @@ class GenerateHexagramState extends State<GenerateHexagram> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Back button
               InkWell(
-                onTap: () {
-                  Navigator.pop(context); // navigate back
-                },
+                onTap: () => Navigator.pop(context), // navigate back
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: responsive.scaleWidth(10),
-                      vertical: responsive.scaleWidth(12)),
+                    horizontal: responsive.scaleWidth(10),
+                    vertical: responsive.scaleWidth(12),
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.arrow_back,
                         color: AppTheme.secondaryColor,
                       ),
@@ -77,16 +74,12 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                 padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
                 child: Text(
                   'Hexagram Generation',
-                  style: TextStyle(
+                  style: AppTheme.headingStyle.copyWith(
                     fontSize: responsive.scaleFontSize(22),
-                    color: AppTheme.secondaryColor,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               SizedBox(height: responsive.scaleHeight(24)),
-
-              // tab layout
               DefaultTabController(
                 length: CompareHexagram.hasChangingLines(SessionData.hexagram1!)
                     ? 2
@@ -94,10 +87,10 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                 child: Column(
                   children: [
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         width: responsive.scaleWidth(300),
                         child: TabBar(
-                          indicator: BoxDecoration(
+                          indicator: const BoxDecoration(
                             color: AppTheme.disabledOutlineColor,
                             border: Border(
                               bottom: BorderSide(
@@ -109,18 +102,14 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                           indicatorSize: TabBarIndicatorSize.tab,
                           labelColor: AppTheme.primaryColor,
                           unselectedLabelColor: AppTheme.secondaryColor,
-                          labelStyle: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            height: 1.42,
-                            letterSpacing: 0.1,
+                          labelStyle: AppTheme.labelStyle.copyWith(
+                            fontSize: responsive.scaleFontSize(14),
                           ),
                           tabs: [
-                            Tab(text: 'Hexagram 1'),
+                            const Tab(text: 'Hexagram 1'),
                             if (CompareHexagram.hasChangingLines(
                                 SessionData.hexagram1!))
-                              Tab(text: 'Hexagram 2'),
+                              const Tab(text: 'Hexagram 2'),
                           ],
                         ),
                       ),
@@ -133,7 +122,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                             blurRadius: 4,
                           )
                         ],
@@ -145,7 +134,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                             children: [
                               Container(
                                 height: responsive.scaleHeight(260),
-                                alignment: Alignment(0.0,
+                                alignment: const Alignment(0.0,
                                     0.0), // center the SVG with equal space above and below
                                 child: SvgPicture.string(
                                   CompareHexagram.hexagram1Svg.isNotEmpty
@@ -164,15 +153,24 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                 // title for hexagram 1 interpretation
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    '${SessionData.hexagram1Title}',
-                                    style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: responsive.scaleFontSize(16),
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.15,
-                                      color: AppTheme.secondaryColor,
-                                    ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        SessionData.hex1No,
+                                        style: AppTheme.headingStyle.copyWith(
+                                          fontSize:
+                                              responsive.scaleFontSize(16),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        SessionData.hex1Title,
+                                        style: AppTheme.headingStyle.copyWith(
+                                          fontSize:
+                                              responsive.scaleFontSize(16),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -185,13 +183,9 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    '${SessionData.hexagram1Definition}',
-                                    style: TextStyle(
-                                      fontFamily: 'Roboto',
+                                    SessionData.hex1Definition,
+                                    style: AppTheme.bodyLarge.copyWith(
                                       fontSize: responsive.scaleFontSize(16),
-                                      fontWeight: FontWeight.normal,
-                                      letterSpacing: 0.5,
-                                      color: AppTheme.secondaryColor,
                                     ),
                                     textAlign: TextAlign.left,
                                     maxLines: 5,
@@ -208,7 +202,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                               children: [
                                 Container(
                                   height: responsive.scaleHeight(260),
-                                  alignment: Alignment(0.0,
+                                  alignment: const Alignment(0.0,
                                       0.0), // center the SVG with equal space above and below
                                   child: SvgPicture.string(
                                     CompareHexagram.hexagram2Svg.isNotEmpty
@@ -224,18 +218,27 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                     horizontal: responsive.scaleWidth(16),
                                     vertical: responsive.scaleHeight(8),
                                   ),
-                                  // title for hexagram 1 interpretation
+                                  // title for hexagram 2 interpretation
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      '${SessionData.hexagram2Title}',
-                                      style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontSize: responsive.scaleFontSize(16),
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.15,
-                                        color: AppTheme.secondaryColor,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${SessionData.hex2No}',
+                                          style: AppTheme.headingStyle.copyWith(
+                                            fontSize:
+                                                responsive.scaleFontSize(16),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          '${SessionData.hex2Title}',
+                                          style: AppTheme.headingStyle.copyWith(
+                                            fontSize:
+                                                responsive.scaleFontSize(16),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -248,13 +251,9 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '${SessionData.hexagram2Definition}',
-                                      style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                      '${SessionData.hex2Definition}',
+                                      style: AppTheme.bodyLarge.copyWith(
                                         fontSize: responsive.scaleFontSize(16),
-                                        fontWeight: FontWeight.normal,
-                                        letterSpacing: 0.5,
-                                        color: AppTheme.secondaryColor,
                                       ),
                                       textAlign: TextAlign.left,
                                       maxLines: 5,
@@ -282,8 +281,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                HexagramDetails()), // navigate to HexagramDetails()
+                            builder: (context) => const HexagramDetails()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -299,7 +297,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                     ),
                     child: Text(
                       'View Interpretation',
-                      style: TextStyle(
+                      style: AppTheme.buttonTextStyle.copyWith(
                         fontSize: responsive.scaleFontSize(16),
                       ),
                     ),

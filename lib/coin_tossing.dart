@@ -1,9 +1,9 @@
 // coin_tossing.dart, navigate here from query_details.dart
+
 import 'package:flutter/material.dart';
 import 'generate_hexagram.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
-import './dart/shared_variables.dart';
 import './dart/session_data.dart';
 import './dart/compare_hexagram.dart';
 
@@ -49,9 +49,7 @@ class CoinTossState extends State<CoinToss> {
             children: [
               // back button
               InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                onTap: () => Navigator.pop(context),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                       horizontal: responsive.scaleWidth(10),
@@ -59,7 +57,7 @@ class CoinTossState extends State<CoinToss> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.arrow_back,
                         color: AppTheme.secondaryColor,
                       ),
@@ -82,17 +80,12 @@ class CoinTossState extends State<CoinToss> {
                 padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
                 child: Text(
                   'Coin Tossing',
-                  style: TextStyle(
+                  style: AppTheme.headingStyle.copyWith(
                     fontSize: responsive.scaleFontSize(22),
-                    color: AppTheme.secondaryColor,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-
               SizedBox(height: responsive.scaleHeight(24)),
-
-              // throw dropdown list
               buildDropdown(
                   label: 'Throw1',
                   value: throw1,
@@ -155,17 +148,16 @@ class CoinTossState extends State<CoinToss> {
                     });
                   },
                   enabled: throw6Enabled),
-
               SizedBox(height: responsive.scaleHeight(30)),
-
               Center(
                 child: SizedBox(
                   width: responsive.scaleWidth(312),
                   child: ElevatedButton(
                     onPressed: isGenerateEnabled
                         ? () {
-                            print(
+                            debugPrint(
                                 "Dropdown Input Values: throw1=$throw1, throw2=$throw2, throw3=$throw3, throw4=$throw4, throw5=$throw5, throw6=$throw6");
+
                             // combine throws into hexagram1
                             SessionData.hexagram1 = [
                               throw6!, // throws stored in reverse order for the descending pattern
@@ -175,31 +167,33 @@ class CoinTossState extends State<CoinToss> {
                               throw2!,
                               throw1!,
                             ];
-
                             SessionData.generateSecondHexagram();
                             final compareHexagram = CompareHexagram();
                             compareHexagram.compareHexagrams();
 
-                            SessionData.hexagram1Title =
+                            SessionData.hex1No =
+                                compareHexagram.matchedHexagram1No;
+                            SessionData.hex1Title =
                                 compareHexagram.matchedHexagram1Title;
-                            SessionData.hexagram1Definition =
+                            SessionData.hex1Definition =
                                 compareHexagram.matchedHexagram1Definition;
-                            SessionData.hexagram2Title =
+
+                            SessionData.hex2No =
+                                compareHexagram.matchedHexagram2No;
+                            SessionData.hex2Title =
                                 compareHexagram.matchedHexagram2Title;
-                            SessionData.hexagram2Definition =
+                            SessionData.hex2Definition =
                                 compareHexagram.matchedHexagram2Definition;
 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      GenerateHexagram()), // navigate to GenerateHexagram()
+                                      const GenerateHexagram()),
                             );
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                        // backgroundColor: const Color(0xFF6750A4),
-                        // foregroundColor: const Color(0xFFFFFFFF),
                         backgroundColor: isGenerateEnabled
                             ? AppTheme.primaryColor
                             : Colors.grey,
@@ -220,65 +214,59 @@ class CoinTossState extends State<CoinToss> {
                   ),
                 ),
               ),
-
               SizedBox(height: responsive.scaleHeight(16)),
-
               Center(
-                  child: SizedBox(
-                width: responsive.scaleWidth(312),
-                child: ElevatedButton(
-                  onPressed: throw2Enabled
-                      ? () {
-                          setState(() {
-                            throw1 = throw2 =
-                                throw3 = throw4 = throw5 = throw6 = null;
-                            throw1Enabled = true;
-                            throw2Enabled = throw3Enabled = throw4Enabled =
-                                throw5Enabled = throw6Enabled = false;
-                            isGenerateEnabled = false;
-                            isResetEnabled = false;
-                          });
-                          checkAllSelected();
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          throw1Enabled ? Colors.white : Colors.transparent,
-                      foregroundColor: throw2Enabled
-                          ? Colors.white // active text colour
-                          : AppTheme.secondaryColor, // disabled text colour
-                      side: throw2Enabled
-                          ? BorderSide(
-                              // add border when enabled
-                              color: AppTheme
-                                  .primaryColor, // border colour when enabled
+                child: SizedBox(
+                  width: responsive.scaleWidth(312),
+                  child: ElevatedButton(
+                    onPressed: throw2Enabled
+                        ? () {
+                            setState(() {
+                              throw1 = throw2 =
+                                  throw3 = throw4 = throw5 = throw6 = null;
+                              throw1Enabled = true;
+                              throw2Enabled = throw3Enabled = throw4Enabled =
+                                  throw5Enabled = throw6Enabled = false;
+                              isGenerateEnabled = false;
+                              isResetEnabled = false;
+                            });
+                            checkAllSelected();
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            throw1Enabled ? Colors.white : Colors.transparent,
+                        foregroundColor: throw2Enabled
+                            ? Colors.white
+                            : AppTheme.secondaryColor,
+                        side: throw2Enabled
+                            ? const BorderSide(
+                                color: AppTheme.primaryColor, width: 1)
+                            : null,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: BorderSide(
+                              color: throw2Enabled
+                                  ? AppTheme.primaryColor
+                                  : AppTheme.disabledOutlineColor,
                               width: 1,
-                            )
-                          : null, // no border when disabled
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 10,
+                            ))),
+                    child: Text(
+                      'Reset All',
+                      style: TextStyle(
+                        fontSize: responsive.scaleFontSize(16),
+                        color: throw2Enabled
+                            ? AppTheme.primaryColor
+                            : AppTheme.disabledTextColor,
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          side: BorderSide(
-                            color: throw2Enabled
-                                ? AppTheme.primaryColor // active outline colour
-                                : AppTheme
-                                    .disabledOutlineColor, // disabled outline colour
-                            width: 1,
-                          ))),
-                  child: Text(
-                    'Reset All',
-                    style: TextStyle(
-                      fontSize: responsive.scaleFontSize(16),
-                      color: throw2Enabled
-                          ? AppTheme.primaryColor // active text colour
-                          : AppTheme.disabledTextColor, // disabled text colour
                     ),
                   ),
                 ),
-              ))
+              ),
             ],
           ),
         ),
@@ -286,7 +274,6 @@ class CoinTossState extends State<CoinToss> {
     );
   }
 
-  // build dropdown list
   Widget buildDropdown({
     required String label,
     String? value,
@@ -295,31 +282,25 @@ class CoinTossState extends State<CoinToss> {
   }) {
     final responsive = Responsive(context);
 
-    // set default value to be displayed before selection
-    Color dropdownTextColor =
-        value == null ? AppTheme.disabledTextColor : AppTheme.secondaryColor;
-
     return Padding(
       padding: EdgeInsets.only(bottom: responsive.scaleHeight(24)),
       child: Center(
-        child: Container(
+        child: SizedBox(
           width: responsive.scaleWidth(312),
           child: DropdownButtonFormField<String>(
-            value: value, // value will be null when no selection is made
-            hint: Text(
-              'Select Result', // shown when value is null
-              style: TextStyle(
-                  color: AppTheme
-                      .disabledTextColor), // greyed-out colour for hinttext
+            value: value,
+            hint: const Text(
+              'Select Result',
+              style: TextStyle(color: AppTheme.disabledTextColor),
             ),
             decoration: InputDecoration(
               labelText: label,
-              labelStyle: TextStyle(color: AppTheme.primaryColor),
-              border: OutlineInputBorder(),
+              labelStyle: AppTheme.labelStyle,
+              border: const OutlineInputBorder(),
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
-            items: [
-              // add only the actual options, no 'Select Result'
+            // add only the actual options, no 'Select Result'
+            items: const [
               DropdownMenuItem<String>(
                 value: 'yin',
                 child: Text('Yin'),
@@ -339,7 +320,9 @@ class CoinTossState extends State<CoinToss> {
             ],
             onChanged: enabled ? onChanged : null,
             style: TextStyle(
-                color: dropdownTextColor), // dynamically set the colour
+                color: value == null
+                    ? AppTheme.disabledTextColor
+                    : AppTheme.secondaryColor),
           ),
         ),
       ),

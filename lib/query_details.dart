@@ -1,10 +1,9 @@
 // query_details.dart, navigate here from personal_details.dart
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'coin_tossing.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
-import './dart/shared_variables.dart';
 import './dart/session_data.dart';
 
 class QueryDetails extends StatefulWidget {
@@ -98,13 +97,9 @@ class QueryDetailsState extends State<QueryDetails> {
   }
 
   // validation checks for each field
-  bool isCurrentdateValid() {
-    return true;
-  }
+  bool isCurrentdateValid() => true;
 
-  bool isCurrenttimeValid() {
-    return true;
-  }
+  bool isCurrenttimeValid() => true;
 
   bool isQuestionValid() {
     final question = questionController.text;
@@ -117,9 +112,7 @@ class QueryDetailsState extends State<QueryDetails> {
         RegExp(r'''^[a-zA-Z0-9.,?"'!\-\n\s]*$''').hasMatch(question);
   }
 
-  bool isCategoryValid() {
-    return selectedCategory != null;
-  }
+  bool isCategoryValid() => selectedCategory != null;
 
   void validateQuestion() {
     setState(() {
@@ -177,9 +170,7 @@ class QueryDetailsState extends State<QueryDetails> {
 
     return Scaffold(
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus(); // hides the keyboard
-        },
+        onTap: () => FocusScope.of(context).unfocus(), // hide the keyboard
         child: SingleChildScrollView(
           // scrolling to prevent keyboard overflow
           child: Container(
@@ -195,9 +186,7 @@ class QueryDetailsState extends State<QueryDetails> {
               children: [
                 // Back button
                 InkWell(
-                  onTap: () {
-                    Navigator.pop(context); // navigate back
-                  },
+                  onTap: () => Navigator.pop(context), // navigate back
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: responsive.scaleWidth(10),
@@ -205,10 +194,8 @@ class QueryDetailsState extends State<QueryDetails> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: AppTheme.secondaryColor,
-                        ),
+                        const Icon(Icons.arrow_back,
+                            color: AppTheme.secondaryColor),
                         SizedBox(width: responsive.scaleWidth(4)),
                         Text(
                           'Back',
@@ -228,77 +215,77 @@ class QueryDetailsState extends State<QueryDetails> {
                   padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
                   child: Text(
                     'Query Details',
-                    style: TextStyle(
+                    style: AppTheme.headingStyle.copyWith(
                       fontSize: responsive.scaleFontSize(22),
-                      color: AppTheme.secondaryColor,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-
                 SizedBox(height: responsive.scaleHeight(24)),
 
-                // Current Date Field
+                // disabled date field
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       enabled: false,
                       controller:
                           currentdateController, // pre-filled default value
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Current Date',
                         labelStyle: TextStyle(color: AppTheme.primaryColor),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         suffixIcon: Icon(
                           Icons.calendar_today,
-                          color: const Color(0xFF79747E),
+                          color: AppTheme.hintColor,
                         ),
                       ),
-                      style: TextStyle(color: const Color(0xFF79747E)),
+                      style: const TextStyle(color: AppTheme.hintColor),
                     ),
                   ),
                 ),
 
                 SizedBox(height: responsive.scaleHeight(24)),
 
-                // Current Time Field
+                // disabled time field
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       enabled: false,
                       controller: currenttimeController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Current Time',
                         labelStyle: TextStyle(color: AppTheme.primaryColor),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        prefixIcon: Icon(Icons.access_time,
-                            color: const Color(0xFF79747E)),
+                        prefixIcon:
+                            Icon(Icons.access_time, color: AppTheme.hintColor),
                         suffixIcon: Icon(Icons.arrow_drop_down,
-                            color: const Color(0xFF79747E)),
+                            color: AppTheme.hintColor),
                       ),
-                      style: TextStyle(color: const Color(0xFF79747E)),
+                      style: const TextStyle(color: AppTheme.hintColor),
                     ),
                   ),
                 ),
 
                 SizedBox(height: responsive.scaleHeight(24)),
 
-                // Question TextField
+                // question field
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: responsive.scaleWidth(312),
                     child: TextField(
                       maxLines: null,
+                      controller: questionController,
+                      focusNode: questionFocusNode,
                       decoration: InputDecoration(
                         hintText: 'Enter your question',
-                        hintStyle: TextStyle(color: const Color(0xFF79747E)),
-                        border: OutlineInputBorder(),
+                        hintStyle: const TextStyle(color: AppTheme.hintColor),
+                        border: const OutlineInputBorder(),
                         labelText: 'Question',
-                        labelStyle: TextStyle(color: AppTheme.primaryColor),
+                        labelStyle:
+                            const TextStyle(color: AppTheme.primaryColor),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         errorText: isQuestionError
                             ? 'Please enter a valid question'
@@ -306,9 +293,7 @@ class QueryDetailsState extends State<QueryDetails> {
                         counterText:
                             '${questionController.text.split(RegExp(r'\s+')).where((word) => word.isNotEmpty).length}/200 words',
                       ),
-                      style: TextStyle(color: AppTheme.secondaryColor),
-                      controller: questionController,
-                      focusNode: questionFocusNode,
+                      style: const TextStyle(color: AppTheme.secondaryColor),
                       onChanged: (value) {
                         setState(() {
                           isQuestionError = !isQuestionValid();
@@ -322,73 +307,26 @@ class QueryDetailsState extends State<QueryDetails> {
                 SizedBox(height: responsive.scaleHeight(24)),
 
                 Padding(
-                    padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
-                    child: Text('Category',
-                        style: TextStyle(
-                          fontSize: responsive.scaleFontSize(12),
-                          color: AppTheme.secondaryColor,
-                        ))),
+                  padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
+                  child: Text(
+                    'Category',
+                    style: TextStyle(
+                      fontSize: responsive.scaleFontSize(12),
+                      color: AppTheme.secondaryColor,
+                    ),
+                  ),
+                ),
 
                 SizedBox(height: responsive.scaleHeight(5)),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Radio<String>(
-                            value: 'Business',
-                            groupValue: selectedCategory,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedCategory = value!;
-                                hasCategoryInteracted = true;
-
-                                validateCategory();
-                                checkFormFilled();
-                              });
-                            }),
-                        Text('Business',
-                            style: TextStyle(color: AppTheme.secondaryColor)),
-                      ],
-                    ),
+                    categoryRadio('Business'),
                     SizedBox(width: responsive.scaleWidth(24)),
-                    Row(
-                      children: [
-                        Radio<String>(
-                            value: 'Love',
-                            groupValue: selectedCategory,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedCategory = value!;
-                                hasCategoryInteracted = true;
-
-                                validateCategory();
-                                checkFormFilled();
-                              });
-                            }),
-                        Text('Love',
-                            style: TextStyle(color: AppTheme.secondaryColor)),
-                      ],
-                    ),
+                    categoryRadio('Love'),
                     SizedBox(width: responsive.scaleWidth(24)),
-                    Row(
-                      children: [
-                        Radio<String>(
-                            value: 'General',
-                            groupValue: selectedCategory,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedCategory = value!;
-                                hasCategoryInteracted = true;
-                                validateCategory();
-                                checkFormFilled();
-                              });
-                            }),
-                        Text('General',
-                            style: TextStyle(color: AppTheme.secondaryColor)),
-                      ],
-                    )
+                    categoryRadio('General'),
                   ],
                 ),
 
@@ -411,13 +349,13 @@ class QueryDetailsState extends State<QueryDetails> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        CoinToss()), // navigate to CoinToss()
+                                        const CoinToss()), // navigate to CoinToss()
                               );
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.primaryColor,
-                          foregroundColor: const Color(0xFFFFFFFF),
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
                             vertical: 10,
@@ -438,6 +376,29 @@ class QueryDetailsState extends State<QueryDetails> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget categoryRadio(String label) {
+    return Row(
+      children: [
+        Radio<String>(
+          value: label,
+          groupValue: selectedCategory,
+          onChanged: (value) {
+            setState(() {
+              selectedCategory = value!;
+              hasCategoryInteracted = true;
+              validateCategory();
+              checkFormFilled();
+            });
+          },
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: AppTheme.secondaryColor),
+        ),
+      ],
     );
   }
 }
