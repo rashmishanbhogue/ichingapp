@@ -6,8 +6,10 @@ import 'session_data.dart';
 import 'svg_generator.dart';
 
 class CompareHexagram {
+  String matchedHexagram1No = '';
   String matchedHexagram1Title = '';
   String matchedHexagram1Definition = '';
+  String? matchedHexagram2No;
   String? matchedHexagram2Title;
   String? matchedHexagram2Definition;
   bool hasSecondHexagram = false;
@@ -96,15 +98,18 @@ class CompareHexagram {
     debugPrint("Hexagram2 match: ${hexagram2Match?.hexNo}");
 
     // step 5: store results
+    matchedHexagram1No = hexagram1Match.hexNo;
     matchedHexagram1Title = hexagram1Match.title;
     matchedHexagram1Definition = hexagram1Match.definition;
 
     if (hexagram2Match != null) {
       hasSecondHexagram = true;
+      matchedHexagram2No = hexagram2Match.hexNo;
       matchedHexagram2Title = hexagram2Match.title;
       matchedHexagram2Definition = hexagram2Match.definition;
     } else {
       hasSecondHexagram = false;
+      matchedHexagram2No = null;
       matchedHexagram2Title = null;
       matchedHexagram2Definition = null;
     }

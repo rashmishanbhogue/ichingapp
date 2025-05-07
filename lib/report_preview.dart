@@ -1,4 +1,5 @@
 // report_preview.dart, view and download report in pdf formatted for a5
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
@@ -53,7 +54,7 @@ class ReportPreview extends StatelessWidget {
                         SizedBox(width: responsive.scaleWidth(4)),
                         Text(
                           'Back',
-                          style: TextStyle(
+                          style: AppTheme.headingStyle.copyWith(
                             fontSize: responsive.scaleFontSize(16),
                             color: AppTheme.primaryColor,
                           ),
@@ -67,10 +68,9 @@ class ReportPreview extends StatelessWidget {
                   padding: EdgeInsets.only(left: responsive.scaleWidth(12)),
                   child: Text(
                     'I-Ching Report',
-                    style: TextStyle(
+                    style: AppTheme.headingStyle.copyWith(
                       fontSize: responsive.scaleFontSize(22),
                       color: AppTheme.secondaryColor,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -103,19 +103,17 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Name',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Expanded(
                                   child: Text(
-                                    '$SessionData.name',
-                                    style: TextStyle(
+                                    SessionData.name,
+                                    style: AppTheme.bodyLarge.copyWith(
                                       fontSize: responsive.scaleFontSize(16),
                                       color: AppTheme.secondaryColor,
                                     ),
@@ -129,18 +127,23 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Date of Birth',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '$SessionData.dob',
-                                  style: TextStyle(
+                                  SessionData.dob,
+                                  style: AppTheme.bodyLarge.copyWith(
+                                    fontSize: responsive.scaleFontSize(16),
+                                    color: AppTheme.secondaryColor,
+                                  ),
+                                ),
+                                Text(
+                                  ',\t${SessionData.tob}',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
                                   ),
@@ -153,18 +156,16 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Place of Birth',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '$SessionData.pob',
-                                  style: TextStyle(
+                                  SessionData.pob,
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
                                   ),
@@ -177,18 +178,16 @@ class ReportPreview extends StatelessWidget {
                               children: [
                                 Text(
                                   'Consultation Date',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(14),
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.15,
                                     color: AppTheme.secondaryColor,
                                   ),
                                 ),
                                 SizedBox(width: responsive.scaleWidth(8)),
                                 Text(
-                                  '$SessionData.currentDate',
-                                  style: TextStyle(
+                                  SessionData.currentDate,
+                                  style: AppTheme.bodyLarge.copyWith(
                                     fontSize: responsive.scaleFontSize(16),
                                     color: AppTheme.secondaryColor,
                                   ),
@@ -200,7 +199,6 @@ class ReportPreview extends StatelessWidget {
                             // loop through question results and render them
                             Column(
                               children: [
-                                // use the spread operator to inject the list of widgets generated by map
                                 ...SessionData.questionResults.map(
                                   (result) => Column(
                                     crossAxisAlignment:
@@ -208,12 +206,10 @@ class ReportPreview extends StatelessWidget {
                                     children: [
                                       Text(
                                         'Q: ${result.question}',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
@@ -221,25 +217,46 @@ class ReportPreview extends StatelessWidget {
                                           height: responsive.scaleHeight(4)),
                                       Text(
                                         '(Time: ${SessionData.formatTime(result.timestamp)}  \t\t Category: ${result.category})',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(14),
                                           fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            result.hexagram1No,
+                                            style: AppTheme.bodyLarge.copyWith(
+                                              fontSize:
+                                                  responsive.scaleFontSize(14),
+                                              fontWeight: FontWeight.w600,
+                                              color: AppTheme.secondaryColor,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            result.hexagram1Title,
+                                            style: AppTheme.bodyLarge.copyWith(
+                                              fontSize:
+                                                  responsive.scaleFontSize(14),
+                                              fontWeight: FontWeight.w600,
+                                              color: AppTheme.secondaryColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                          height: responsive.scaleHeight(4)),
                                       Text(
-                                        '$result.hexagram1Description',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        result.hexagram1Description,
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.normal,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
@@ -247,40 +264,71 @@ class ReportPreview extends StatelessWidget {
                                           height: responsive.scaleHeight(4)),
                                       // conditionally display hexagram 2 description if it exists
                                       if (result.hexagram2Description != null)
-                                        Text(
-                                          '${result.hexagram2Description}',
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize:
-                                                responsive.scaleFontSize(16),
-                                            fontWeight: FontWeight.normal,
-                                            letterSpacing: 0.5,
-                                            color: AppTheme.secondaryColor,
-                                          ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${result.hexagram2No}',
+                                                  style: AppTheme.bodyLarge
+                                                      .copyWith(
+                                                    fontSize: responsive
+                                                        .scaleFontSize(14),
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        AppTheme.secondaryColor,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  '${result.hexagram2Title}',
+                                                  style: AppTheme.bodyLarge
+                                                      .copyWith(
+                                                    fontSize: responsive
+                                                        .scaleFontSize(14),
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        AppTheme.secondaryColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height:
+                                                    responsive.scaleHeight(4)),
+                                            Text(
+                                              '${result.hexagram2Description}',
+                                              style:
+                                                  AppTheme.bodyLarge.copyWith(
+                                                fontSize: responsive
+                                                    .scaleFontSize(16),
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme.secondaryColor,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Text(
                                         'Comments',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.15,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Text(
-                                        '$result.interpretation',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                        result.interpretation,
+                                        style: AppTheme.bodyLarge.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                           fontWeight: FontWeight.normal,
-                                          letterSpacing: 0.5,
                                           color: AppTheme.secondaryColor,
                                         ),
                                       ),
@@ -323,15 +371,13 @@ class ReportPreview extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               'Downloading PDF, please wait...',
-                              style: TextStyle(
+                              style: AppTheme.bodyLarge.copyWith(
                                   color: Colors.white,
                                   fontSize: responsive.scaleFontSize(16)),
                             ),
                           ),
-                          backgroundColor:
-                              AppTheme.primaryColor, // light purple background
-                          duration:
-                              const Duration(seconds: 2), // show for 2 seconds
+                          backgroundColor: AppTheme.primaryColor,
+                          duration: const Duration(seconds: 2),
                         ),
                       );
 
@@ -360,7 +406,8 @@ class ReportPreview extends StatelessWidget {
                     ),
                     child: Text(
                       'Download Report',
-                      style: TextStyle(
+                      style: AppTheme.bodyLarge.copyWith(
+                        color: Colors.white,
                         fontSize: responsive.scaleFontSize(16),
                       ),
                     ),
@@ -393,7 +440,7 @@ class ReportPreview extends StatelessWidget {
                     ),
                     child: Text(
                       'Exit',
-                      style: TextStyle(
+                      style: AppTheme.bodyLarge.copyWith(
                         fontSize: responsive.scaleFontSize(16),
                         color: AppTheme.primaryColor,
                       ),
@@ -563,10 +610,16 @@ class ReportPreview extends StatelessWidget {
               style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 4),
-            pw.Text('$result.hexagram1Description',
+            pw.Text(result.hexagram1Title,
+                style: const pw.TextStyle(fontSize: 11)),
+            pw.SizedBox(height: 4),
+            pw.Text(result.hexagram1Description,
                 style: const pw.TextStyle(fontSize: 11)),
             if (result.hexagram2Description != null) ...[
               pw.SizedBox(height: 6),
+              pw.Text('${result.hexagram2Title}',
+                  style: const pw.TextStyle(fontSize: 11)),
+              pw.SizedBox(height: 4),
               pw.Text('${result.hexagram2Description}',
                   style: const pw.TextStyle(fontSize: 11)),
             ],
@@ -575,7 +628,7 @@ class ReportPreview extends StatelessWidget {
                 style:
                     pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
             pw.SizedBox(height: 4),
-            pw.Text('$result.interpretation',
+            pw.Text(result.interpretation,
                 style: const pw.TextStyle(fontSize: 11)),
           ],
         ),
