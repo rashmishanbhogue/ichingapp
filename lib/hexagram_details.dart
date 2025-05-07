@@ -1,4 +1,4 @@
-// hexagram_details.dart, where the user reads the descriptions and inputs his
+// hexagram_details.dart, where the user reads the descriptions and inputs his interpretation
 
 import 'package:flutter/material.dart';
 import 'query_details.dart';

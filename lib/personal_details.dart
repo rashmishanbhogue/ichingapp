@@ -1,4 +1,5 @@
 // personal_details.dart, navigate here from main.dart
+
 import 'package:flutter/material.dart';
 import 'query_details.dart';
 import './dart/responsive.dart';
