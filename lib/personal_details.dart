@@ -107,9 +107,11 @@ class PersonalDetailsState extends State<PersonalDetails> {
   }
 
   bool isTobValid() {
-    final tob = tobController.text;
-    return RegExp(r'^\d{1,2}:\d{2} (AM|PM)$')
-        .hasMatch(tob); // check format HH:MM AM/PM
+    final tob = tobController.text.trim();
+    if (tob.isEmpty) return false;
+    final regex12 = RegExp(r'^\d{1,2}:\d{2}\s?(AM|PM)$', caseSensitive: false);
+    final regex24 = RegExp(r'^\d{2}:\d{2}$'); // 24-hour format
+    return regex12.hasMatch(tob) || regex24.hasMatch(tob);
   }
 
   bool isPobValid() {
@@ -191,8 +193,11 @@ class PersonalDetailsState extends State<PersonalDetails> {
     );
 
     if (pickedTime != null) {
+      final formatted = MaterialLocalizations.of(context).formatTimeOfDay(
+          pickedTime,
+          alwaysUse24HourFormat: false); // to deal with am pm validation
       setState(() {
-        tobController.text = pickedTime.format(context);
+        tobController.text = formatted;
         hasTobInteracted = true;
       });
       validateTob();
