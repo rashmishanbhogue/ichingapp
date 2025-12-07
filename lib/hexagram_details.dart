@@ -83,10 +83,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
   }
 
   void onFocusChange(
-    FocusNode node,
-    bool Function() validate,
-    Function(bool) setError,
-  ) {
+      FocusNode node, bool Function() validate, Function(bool) setError) {
     hasCommentsInteracted = true;
     final isValid = validate();
     setError(!isValid);
@@ -186,7 +183,6 @@ class HexagramDetailsState extends State<HexagramDetails> {
                             children: [
                               // hexagram 1 title and description
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     SessionData.hex1No,
@@ -195,15 +191,10 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                     ),
                                   ),
                                   const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      SessionData.hex1Title,
-                                      style: AppTheme.headingStyle.copyWith(
-                                        fontSize: responsive.scaleFontSize(16),
-                                      ),
-                                      softWrap: true,
-                                      maxLines: null,
-                                      overflow: TextOverflow.visible,
+                                  Text(
+                                    SessionData.hex1Title,
+                                    style: AppTheme.headingStyle.copyWith(
+                                      fontSize: responsive.scaleFontSize(16),
                                     ),
                                   ),
                                 ],
@@ -221,10 +212,8 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               SizedBox(height: responsive.scaleHeight(24)),
                               // hexagram 2 title and description
                               if (CompareHexagram.hasChangingLines(
-                                SessionData.hexagram1!,
-                              )) ...[
+                                  SessionData.hexagram1!)) ...[
                                 Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${SessionData.hex2No}',
@@ -233,16 +222,10 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        '${SessionData.hex2Title}',
-                                        style: AppTheme.headingStyle.copyWith(
-                                          fontSize:
-                                              responsive.scaleFontSize(16),
-                                        ),
-                                        softWrap: true,
-                                        maxLines: null,
-                                        overflow: TextOverflow.visible,
+                                    Text(
+                                      '${SessionData.hex2Title}',
+                                      style: AppTheme.headingStyle.copyWith(
+                                        fontSize: responsive.scaleFontSize(16),
                                       ),
                                     ),
                                   ],
@@ -270,14 +253,12 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                   maxLines: 4,
                                   decoration: InputDecoration(
                                     hintStyle: const TextStyle(
-                                      color: AppTheme.disabledTextColor,
-                                    ),
+                                        color: AppTheme.disabledTextColor),
                                     hintText: 'Type Here',
                                     border: const OutlineInputBorder(),
                                     labelText: 'Enter Comments',
                                     labelStyle: const TextStyle(
-                                      color: AppTheme.primaryColor,
-                                    ),
+                                        color: AppTheme.primaryColor),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     errorText: isCommentsError
@@ -335,17 +316,16 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
                               // create a new questionresult object with the form data
                               QuestionResult result = QuestionResult(
-                                question: SessionData.query,
-                                category: SessionData.sessionCategory,
-                                timestamp: timestamp,
-                                hexagram1No: SessionData.hex1No,
-                                hexagram1Title: SessionData.hex1Title,
-                                hexagram1Description: hexagram1Description,
-                                hexagram2No: SessionData.hex2No,
-                                hexagram2Title: SessionData.hex2Title,
-                                hexagram2Description: hexagram2Description,
-                                interpretation: SessionData.comments,
-                              );
+                                  question: SessionData.query,
+                                  category: SessionData.sessionCategory,
+                                  timestamp: timestamp,
+                                  hexagram1No: SessionData.hex1No,
+                                  hexagram1Title: SessionData.hex1Title,
+                                  hexagram1Description: hexagram1Description,
+                                  hexagram2No: SessionData.hex2No,
+                                  hexagram2Title: SessionData.hex2Title,
+                                  hexagram2Description: hexagram2Description,
+                                  interpretation: SessionData.comments);
 
                               // save the result to sessiondata
                               SessionData.addQuestionResult(result);
@@ -353,8 +333,8 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const ReportPreview(),
-                                ),
+                                    builder: (context) =>
+                                        const ReportPreview()),
                               );
                             }
                           : null,
@@ -396,17 +376,16 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
                               // create a new questionresult object with the form data
                               QuestionResult result = QuestionResult(
-                                question: SessionData.query,
-                                category: SessionData.sessionCategory,
-                                timestamp: timestamp,
-                                hexagram1No: SessionData.hex1No,
-                                hexagram1Title: SessionData.hex1Title,
-                                hexagram1Description: hexagram1Description,
-                                hexagram2No: SessionData.hex2No,
-                                hexagram2Title: SessionData.hex2Title,
-                                hexagram2Description: hexagram2Description,
-                                interpretation: SessionData.comments,
-                              );
+                                  question: SessionData.query,
+                                  category: SessionData.sessionCategory,
+                                  timestamp: timestamp,
+                                  hexagram1No: SessionData.hex1No,
+                                  hexagram1Title: SessionData.hex1Title,
+                                  hexagram1Description: hexagram1Description,
+                                  hexagram2No: SessionData.hex2No,
+                                  hexagram2Title: SessionData.hex2Title,
+                                  hexagram2Description: hexagram2Description,
+                                  interpretation: SessionData.comments);
 
                               // save the result to sessiondata
                               SessionData.addQuestionResult(result);
@@ -414,8 +393,7 @@ class HexagramDetailsState extends State<HexagramDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const QueryDetails(),
-                                ),
+                                    builder: (context) => const QueryDetails()),
                               );
                             }
                           : null,

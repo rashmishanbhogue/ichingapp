@@ -461,6 +461,8 @@ class ReportPreview extends StatelessWidget {
     final logoBytes = await rootBundle.load('assets/images/logo.jpg');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
+    final content = generateReportContent();
+
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a5,
@@ -516,8 +518,13 @@ class ReportPreview extends StatelessWidget {
           ),
         ),
         build: (context) => [
-          // spread the list produced by generateReportContent()
-          ...generateReportContent(),
+          pw.Container(
+            margin: const pw.EdgeInsets.symmetric(horizontal: 22),
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: content,
+            ),
+          ),
         ],
         footer: (context) => pw.Container(
           margin: const pw.EdgeInsets.symmetric(horizontal: 20),
@@ -584,78 +591,50 @@ class ReportPreview extends StatelessWidget {
   }
 
   List<pw.Widget> generateReportContent() {
-    const double leftIndent = 14.0;
-    const double rightIndent = 10.0;
-    const double blockGap = 10.0; // consistent space between blocks
-
-    List<pw.Widget> items = [];
+    List<pw.Widget> content = [];
 
     for (var i = 0; i < SessionData.questionResults.length; i++) {
-      final r = SessionData.questionResults[i];
+      var result = SessionData.questionResults[i];
 
-      // question and details block
-      items.add(
-        pw.Padding(
-          padding: const pw.EdgeInsets.fromLTRB(leftIndent, 0, rightIndent, 0),
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text('Q: ${r.question}',
-                  style: pw.TextStyle(
-                      fontSize: 12, fontWeight: pw.FontWeight.bold)),
-              pw.SizedBox(height: 4),
-
-              pw.Text(
-                '(Time: ${SessionData.formatTime(r.timestamp)} | Category: ${r.category})',
-                style:
-                    pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
-              ),
+      content.add(
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              'Q: ${result.question}',
+              style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 5),
+            pw.Text(
+              '(Time: ${SessionData.formatTime(result.timestamp)} | Category: ${result.category})',
+              style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text(result.hexagram1Title,
+                style: const pw.TextStyle(fontSize: 11)),
+            pw.SizedBox(height: 4),
+            pw.Text(result.hexagram1Description,
+                style: const pw.TextStyle(fontSize: 11)),
+            if (result.hexagram2Description != null) ...[
               pw.SizedBox(height: 6),
-
-              // hexagram 1
-              pw.Text(r.hexagram1Title,
+              pw.Text('${result.hexagram2Title}',
                   style: const pw.TextStyle(fontSize: 11)),
               pw.SizedBox(height: 4),
-              pw.Paragraph(
-                  text: r.hexagram1Description,
-                  style: const pw.TextStyle(fontSize: 11)),
-
-              // hexagram 2 if generated
-              if (r.hexagram2Description != null) ...[
-                pw.SizedBox(height: 6),
-                pw.Text(r.hexagram2Title!,
-                    style: const pw.TextStyle(fontSize: 11)),
-                pw.SizedBox(height: 4),
-                pw.Paragraph(
-                    text: r.hexagram2Description!,
-                    style: const pw.TextStyle(fontSize: 11)),
-              ],
-
-              pw.SizedBox(height: 8),
-              pw.Text('Comments:',
-                  style: pw.TextStyle(
-                      fontSize: 12, fontWeight: pw.FontWeight.bold)),
-              pw.SizedBox(height: 4),
-              pw.Paragraph(
-                  text: r.interpretation,
+              pw.Text('${result.hexagram2Description}',
                   style: const pw.TextStyle(fontSize: 11)),
             ],
-          ),
+            pw.SizedBox(height: 6),
+            pw.Text('Comments:',
+                style:
+                    pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 4),
+            pw.Text(result.interpretation,
+                style: const pw.TextStyle(fontSize: 11)),
+          ],
         ),
       );
-
-      // separator between the questions
-      if (i != SessionData.questionResults.length - 1) {
-        items.add(
-          pw.Padding(
-            padding: const pw.EdgeInsets.fromLTRB(
-                leftIndent, 8, rightIndent, blockGap),
-            child: pw.Divider(thickness: 0.6),
-          ),
-        );
-      }
     }
 
-    return items;
+    return content;
   }
 }

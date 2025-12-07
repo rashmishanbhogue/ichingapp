@@ -121,7 +121,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(),
+                            color: Colors.black.withOpacity(0.1),
                             offset: const Offset(0, 2),
                             blurRadius: 4,
                           )
@@ -151,32 +151,27 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                   vertical: responsive.scaleHeight(8),
                                 ),
                                 // title for hexagram 1 interpretation
-                                child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    Text(
-                                      SessionData.hex1No,
-                                      style: AppTheme.headingStyle.copyWith(
-                                        fontSize: responsive.scaleFontSize(16),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        SessionData.hex1No,
+                                        style: AppTheme.headingStyle.copyWith(
+                                          fontSize:
+                                              responsive.scaleFontSize(16),
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    // title wraps and takes remaining width
-                                    Expanded(
-                                      child: Text(
+                                      const SizedBox(width: 10),
+                                      Text(
                                         SessionData.hex1Title,
                                         style: AppTheme.headingStyle.copyWith(
                                           fontSize:
                                               responsive.scaleFontSize(16),
                                         ),
-                                        softWrap: true,
-                                        maxLines: null,
-                                        overflow: TextOverflow.visible,
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -185,27 +180,16 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                   vertical: responsive.scaleHeight(8),
                                 ),
                                 // short description for Hexagram 1
-                                child: SizedBox(
-                                  height: responsive.scaleHeight(90),
-                                  child: Scrollbar(
-                                    thumbVisibility: true,
-                                    radius: const Radius.circular(4),
-                                    thickness: 8,
-                                    child: SingleChildScrollView(
-                                      padding: const EdgeInsets.only(
-                                          right:
-                                              12), // space for the scrollbar thumb
-                                      physics: const ClampingScrollPhysics(),
-                                      child: Text(
-                                        SessionData.hex1Definition,
-                                        style: AppTheme.bodyLarge.copyWith(
-                                          fontSize:
-                                              responsive.scaleFontSize(16),
-                                        ),
-                                        textAlign: TextAlign.left,
-                                        softWrap: true,
-                                      ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    SessionData.hex1Definition,
+                                    style: AppTheme.bodyLarge.copyWith(
+                                      fontSize: responsive.scaleFontSize(16),
                                     ),
+                                    textAlign: TextAlign.left,
+                                    maxLines: 5,
+                                    overflow: TextOverflow.visible,
                                   ),
                                 ),
                               ),
@@ -235,33 +219,27 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                     vertical: responsive.scaleHeight(8),
                                   ),
                                   // title for hexagram 2 interpretation
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.baseline,
-                                    textBaseline: TextBaseline.alphabetic,
-                                    children: [
-                                      Text(
-                                        '${SessionData.hex2No}',
-                                        style: AppTheme.headingStyle.copyWith(
-                                          fontSize:
-                                              responsive.scaleFontSize(16),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${SessionData.hex2No}',
+                                          style: AppTheme.headingStyle.copyWith(
+                                            fontSize:
+                                                responsive.scaleFontSize(16),
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      // title wraps and takes remaining width
-                                      Expanded(
-                                        child: Text(
+                                        const SizedBox(width: 10),
+                                        Text(
                                           '${SessionData.hex2Title}',
                                           style: AppTheme.headingStyle.copyWith(
                                             fontSize:
                                                 responsive.scaleFontSize(16),
                                           ),
-                                          softWrap: true,
-                                          maxLines: null,
-                                          overflow: TextOverflow.visible,
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -270,27 +248,16 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                     vertical: responsive.scaleHeight(8),
                                   ),
                                   // short description for Hexagram 2
-                                  child: SizedBox(
-                                    height: responsive.scaleHeight(90),
-                                    child: Scrollbar(
-                                      thumbVisibility: true,
-                                      radius: const Radius.circular(4),
-                                      thickness: 8,
-                                      child: SingleChildScrollView(
-                                        padding: const EdgeInsets.only(
-                                            right:
-                                                12), // space for the scrollbar thumb
-                                        physics: const ClampingScrollPhysics(),
-                                        child: Text(
-                                          '${SessionData.hex2Definition}',
-                                          style: AppTheme.bodyLarge.copyWith(
-                                            fontSize:
-                                                responsive.scaleFontSize(16),
-                                          ),
-                                          textAlign: TextAlign.left,
-                                          softWrap: true,
-                                        ),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '${SessionData.hex2Definition}',
+                                      style: AppTheme.bodyLarge.copyWith(
+                                        fontSize: responsive.scaleFontSize(16),
                                       ),
+                                      textAlign: TextAlign.left,
+                                      maxLines: 5,
+                                      overflow: TextOverflow.visible,
                                     ),
                                   ),
                                 ),

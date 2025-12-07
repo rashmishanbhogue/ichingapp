@@ -1,5 +1,4 @@
 // personal_details.dart, navigate here from main.dart
-
 import 'package:flutter/material.dart';
 import 'query_details.dart';
 import './dart/responsive.dart';
@@ -94,7 +93,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
-  // validation checks for each field
+// validation checks for each field
   bool isNameValid() {
     final name = nameController.text;
     return RegExp(r'^[a-zA-Z\s]+$').hasMatch(name) && name.isNotEmpty;
@@ -114,7 +113,7 @@ class PersonalDetailsState extends State<PersonalDetails> {
 
   bool isPobValid() {
     final pob = pobController.text;
-    return RegExp(r'^[a-zA-Z\s,]+$').hasMatch(pob) && pob.isNotEmpty;
+    return RegExp(r'^[a-zA-Z\s]+$').hasMatch(pob) && pob.isNotEmpty;
   }
 
   void validateName() {
