@@ -187,7 +187,7 @@ final List<Hexagram> predefinedHexagrams = [
       pattern: ['yin', 'yang', 'yin', 'yin', 'yang', 'yin'],
       title: 'K\'an - the Abysmal (Water)',
       definition:
-          'Abysmal (Water) in the I Ching, Hexagram 29, teaches navigating life’s mysteries with the flow. This symbol of water reflects danger and transformation. It guides through self-discovery and caution, highlighting patience, integrity, and humility. The hexagram encourages embracing life\'s currents, preparing for the unknown, and learning from life\'s depths for resilience and personal growth.'),
+          'Abysmal (Water) in the I Ching, Hexagram 29, teaches navigating life\'s mysteries with the flow. This symbol of water reflects danger and transformation. It guides through self-discovery and caution, highlighting patience, integrity, and humility. The hexagram encourages embracing life\'s currents, preparing for the unknown, and learning from life\'s depths for resilience and personal growth.'),
   Hexagram(
       hexNo: '30',
       pattern: ['yang', 'yin', 'yang', 'yang', 'yin', 'yang'],

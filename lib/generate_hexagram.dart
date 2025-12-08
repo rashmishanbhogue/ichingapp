@@ -16,9 +16,19 @@ class GenerateHexagram extends StatefulWidget {
 }
 
 class GenerateHexagramState extends State<GenerateHexagram> {
+  final ScrollController hex1DefController = ScrollController();
+  final ScrollController hex2DefController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    hex1DefController.dispose();
+    hex2DefController.dispose();
+    super.dispose();
   }
 
   @override
@@ -188,10 +198,12 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                 child: SizedBox(
                                   height: responsive.scaleHeight(90),
                                   child: Scrollbar(
+                                    controller: hex1DefController,
                                     thumbVisibility: true,
                                     radius: const Radius.circular(4),
                                     thickness: 8,
                                     child: SingleChildScrollView(
+                                      controller: hex1DefController,
                                       padding: const EdgeInsets.only(
                                           right:
                                               12), // space for the scrollbar thumb
@@ -273,10 +285,12 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                                   child: SizedBox(
                                     height: responsive.scaleHeight(90),
                                     child: Scrollbar(
+                                      controller: hex2DefController,
                                       thumbVisibility: true,
                                       radius: const Radius.circular(4),
                                       thickness: 8,
                                       child: SingleChildScrollView(
+                                        controller: hex2DefController,
                                         padding: const EdgeInsets.only(
                                             right:
                                                 12), // space for the scrollbar thumb

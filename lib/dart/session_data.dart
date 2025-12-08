@@ -52,16 +52,20 @@ class SessionData {
 
   // a method to add a questionresult to the list
   static void addQuestionResult(QuestionResult result) {
-    bool exists = questionResults.any((q) =>
+    // find an existing matching question (same question text + same category)
+    final idx = questionResults.indexWhere((q) =>
         q.question.trim().toLowerCase() ==
             result.question.trim().toLowerCase() &&
         q.category == result.category);
 
-    if (!exists) {
+    if (idx == -1) {
+      // no match found - new question, append it normally
       questionResults.add(result);
       questionCounter++;
     } else {
-      debugPrint('Duplicate question detected – not adding to results.');
+      // match found - update the existing entry so comments can refresh correctly
+      questionResults[idx] = result;
+      debugPrint('existing question updated at index $idx');
     }
   }
 
