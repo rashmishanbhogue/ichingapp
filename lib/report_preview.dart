@@ -227,6 +227,9 @@ class ReportPreview extends StatelessWidget {
                                       SizedBox(
                                           height: responsive.scaleHeight(8)),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.baseline,
+                                        textBaseline: TextBaseline.alphabetic,
                                         children: [
                                           Text(
                                             result.hexagram1No,
@@ -238,17 +241,26 @@ class ReportPreview extends StatelessWidget {
                                             ),
                                           ),
                                           const SizedBox(width: 10),
-                                          Text(
-                                            result.hexagram1Title,
-                                            style: AppTheme.bodyLarge.copyWith(
-                                              fontSize:
-                                                  responsive.scaleFontSize(14),
-                                              fontWeight: FontWeight.w600,
-                                              color: AppTheme.secondaryColor,
+
+                                          // title wraps cleanly under itself
+                                          Expanded(
+                                            child: Text(
+                                              result.hexagram1Title,
+                                              style:
+                                                  AppTheme.bodyLarge.copyWith(
+                                                fontSize: responsive
+                                                    .scaleFontSize(14),
+                                                fontWeight: FontWeight.w600,
+                                                color: AppTheme.secondaryColor,
+                                              ),
+                                              softWrap: true,
+                                              maxLines: null,
+                                              overflow: TextOverflow.visible,
                                             ),
                                           ),
                                         ],
                                       ),
+
                                       SizedBox(
                                           height: responsive.scaleHeight(4)),
                                       Text(
@@ -269,6 +281,10 @@ class ReportPreview extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.baseline,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
                                               children: [
                                                 Text(
                                                   '${result.hexagram2No}',
@@ -282,15 +298,24 @@ class ReportPreview extends StatelessWidget {
                                                   ),
                                                 ),
                                                 const SizedBox(width: 10),
-                                                Text(
-                                                  '${result.hexagram2Title}',
-                                                  style: AppTheme.bodyLarge
-                                                      .copyWith(
-                                                    fontSize: responsive
-                                                        .scaleFontSize(14),
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        AppTheme.secondaryColor,
+
+                                                // title wraps cleanly under itself
+                                                Expanded(
+                                                  child: Text(
+                                                    '${result.hexagram2Title}',
+                                                    style: AppTheme.bodyLarge
+                                                        .copyWith(
+                                                      fontSize: responsive
+                                                          .scaleFontSize(14),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppTheme
+                                                          .secondaryColor,
+                                                    ),
+                                                    softWrap: true,
+                                                    maxLines: null,
+                                                    overflow:
+                                                        TextOverflow.visible,
                                                   ),
                                                 ),
                                               ],
