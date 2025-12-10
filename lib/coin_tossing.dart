@@ -148,7 +148,7 @@ class CoinTossState extends State<CoinToss> {
                     });
                   },
                   enabled: throw6Enabled),
-              SizedBox(height: responsive.scaleHeight(30)),
+              SizedBox(height: responsive.scaleHeight(20)),
               Center(
                 child: SizedBox(
                   width: responsive.scaleWidth(312),

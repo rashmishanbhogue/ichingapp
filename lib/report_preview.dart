@@ -375,104 +375,114 @@ class ReportPreview extends StatelessWidget {
           ),
 
           // non-scrollable area - TextField and buttons
-          Container(
-            width: responsive.scaleWidth(360),
-            padding: EdgeInsets.symmetric(
-              horizontal: responsive.scaleWidth(12),
-              vertical: responsive.scaleHeight(8),
-            ),
-            child: Column(
-              children: [
-                SizedBox(height: responsive.scaleHeight(24)),
-                SizedBox(
-                  width: responsive.scaleWidth(312),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // snackbar display before PDF is generated
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Container(
-                            height: 60, // trial increase of the snackbar height
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Downloading PDF, please wait...',
-                              style: AppTheme.bodyLarge.copyWith(
-                                  color: Colors.white,
-                                  fontSize: responsive.scaleFontSize(16)),
+          // safearea to avoid the navbar overlap over the buttons
+          SafeArea(
+            bottom: true,
+            top: false,
+            child: Container(
+              width: responsive.scaleWidth(360),
+              padding: EdgeInsets.fromLTRB(
+                responsive.scaleWidth(12),
+                responsive.scaleHeight(8),
+                responsive.scaleWidth(12),
+                // extra room as a buffer
+                MediaQuery.of(context).viewPadding.bottom +
+                    responsive.scaleHeight(8),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: responsive.scaleHeight(24)),
+                  SizedBox(
+                    width: responsive.scaleWidth(312),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        // snackbar display before PDF is generated
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Container(
+                              height:
+                                  60, // trial increase of the snackbar height
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Downloading PDF, please wait...',
+                                style: AppTheme.bodyLarge.copyWith(
+                                    color: Colors.white,
+                                    fontSize: responsive.scaleFontSize(16)),
+                              ),
                             ),
+                            backgroundColor: AppTheme.primaryColor,
+                            duration: const Duration(seconds: 2),
                           ),
-                          backgroundColor: AppTheme.primaryColor,
-                          duration: const Duration(seconds: 2),
+                        );
+
+                        final pdfFile =
+                            await generatePDF(); // await the PDF document
+                        final pdfBytes = await pdfFile
+                            .save(); // await the saving process to get the bytes
+
+                        await Printing.sharePdf(
+                          bytes: pdfBytes, // pass the Uint8List bytes here
+                          filename:
+                              '${SessionData.name.replaceAll(' ', '_')}_${SessionData.getFormattedDate(SessionData.currentDate)}.pdf',
+                          // filename: SessionData.generatePdfFilename(),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 10,
                         ),
-                      );
-
-                      final pdfFile =
-                          await generatePDF(); // await the PDF document
-                      final pdfBytes = await pdfFile
-                          .save(); // await the saving process to get the bytes
-
-                      await Printing.sharePdf(
-                        bytes: pdfBytes, // pass the Uint8List bytes here
-                        filename:
-                            '${SessionData.name.replaceAll(' ', '_')}_${SessionData.getFormattedDate(SessionData.currentDate)}.pdf',
-                        // filename: SessionData.generatePdfFilename(),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryColor,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                    ),
-                    child: Text(
-                      'Download Report',
-                      style: AppTheme.bodyLarge.copyWith(
-                        color: Colors.white,
-                        fontSize: responsive.scaleFontSize(16),
+                      child: Text(
+                        'Download Report',
+                        style: AppTheme.bodyLarge.copyWith(
+                          color: Colors.white,
+                          fontSize: responsive.scaleFontSize(16),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: responsive.scaleHeight(16)),
-                SizedBox(
-                  width: responsive.scaleWidth(312),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // clear sessiondata
-                      SessionData.clearSessionData();
-                      // close the app
-                      SystemNavigator.pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.disabledOutlineColor,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 10,
+                  SizedBox(height: responsive.scaleHeight(16)),
+                  SizedBox(
+                    width: responsive.scaleWidth(312),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // clear sessiondata
+                        SessionData.clearSessionData();
+                        // close the app
+                        SystemNavigator.pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.disabledOutlineColor,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          side: const BorderSide(
+                            color: AppTheme.primaryColor,
+                            width: 1,
+                          ),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                        side: const BorderSide(
+                      child: Text(
+                        'Exit',
+                        style: AppTheme.bodyLarge.copyWith(
+                          fontSize: responsive.scaleFontSize(16),
                           color: AppTheme.primaryColor,
-                          width: 1,
                         ),
                       ),
                     ),
-                    child: Text(
-                      'Exit',
-                      style: AppTheme.bodyLarge.copyWith(
-                        fontSize: responsive.scaleFontSize(16),
-                        color: AppTheme.primaryColor,
-                      ),
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

@@ -308,138 +308,147 @@ class HexagramDetailsState extends State<HexagramDetails> {
             ),
 
             // non-scrollable area - textfield and buttons
-            Container(
-              width: responsive.scaleWidth(360),
-              padding: EdgeInsets.symmetric(
-                horizontal: responsive.scaleWidth(12),
-                vertical: responsive.scaleHeight(8),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: responsive.scaleHeight(24)),
-                  SizedBox(
-                    width: responsive.scaleWidth(312),
-                    child: ElevatedButton(
-                      onPressed: isFormFilled
-                          ? () {
-                              // set the form data into sessiondata
-                              SessionData.comments = commentsController.text;
+            // safearea to avoid the navbar overlap over the buttons
+            SafeArea(
+              bottom: true,
+              top: false,
+              child: Container(
+                width: responsive.scaleWidth(360),
+                padding: EdgeInsets.fromLTRB(
+                  responsive.scaleWidth(12),
+                  responsive.scaleHeight(8),
+                  responsive.scaleWidth(12),
+                  // extra room as a buffer
+                  MediaQuery.of(context).viewPadding.bottom +
+                      responsive.scaleHeight(8),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: responsive.scaleHeight(24)),
+                    SizedBox(
+                      width: responsive.scaleWidth(312),
+                      child: ElevatedButton(
+                        onPressed: isFormFilled
+                            ? () {
+                                // set the form data into sessiondata
+                                SessionData.comments = commentsController.text;
 
-                              // parse the time with formatTime function from sessiondata
-                              DateTime timestamp = DateTime.now();
+                                // parse the time with formatTime function from sessiondata
+                                DateTime timestamp = DateTime.now();
 
-                              String hexagram1Description =
-                                  SessionData.hex1Definition;
-                              String? hexagram2Description =
-                                  SessionData.hex2Definition;
+                                String hexagram1Description =
+                                    SessionData.hex1Definition;
+                                String? hexagram2Description =
+                                    SessionData.hex2Definition;
 
-                              // create a new questionresult object with the form data
-                              QuestionResult result = QuestionResult(
-                                question: SessionData.query,
-                                category: SessionData.sessionCategory,
-                                timestamp: timestamp,
-                                hexagram1No: SessionData.hex1No,
-                                hexagram1Title: SessionData.hex1Title,
-                                hexagram1Description: hexagram1Description,
-                                hexagram2No: SessionData.hex2No,
-                                hexagram2Title: SessionData.hex2Title,
-                                hexagram2Description: hexagram2Description,
-                                interpretation: SessionData.comments,
-                              );
+                                // create a new questionresult object with the form data
+                                QuestionResult result = QuestionResult(
+                                  question: SessionData.query,
+                                  category: SessionData.sessionCategory,
+                                  timestamp: timestamp,
+                                  hexagram1No: SessionData.hex1No,
+                                  hexagram1Title: SessionData.hex1Title,
+                                  hexagram1Description: hexagram1Description,
+                                  hexagram2No: SessionData.hex2No,
+                                  hexagram2Title: SessionData.hex2Title,
+                                  hexagram2Description: hexagram2Description,
+                                  interpretation: SessionData.comments,
+                                );
 
-                              // save the result to sessiondata
-                              SessionData.addQuestionResult(result);
+                                // save the result to sessiondata
+                                SessionData.addQuestionResult(result);
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ReportPreview(),
-                                ),
-                              );
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 10,
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ReportPreview(),
+                                  ),
+                                );
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryColor,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 10,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: Text(
-                        'Generate Report',
-                        style: TextStyle(
-                          fontSize: responsive.scaleFontSize(16),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: responsive.scaleHeight(16)),
-                  SizedBox(
-                    width: responsive.scaleWidth(312),
-                    child: ElevatedButton(
-                      onPressed: isFormFilled
-                          ? () {
-                              // set the form data into sessiondata
-                              SessionData.comments = commentsController.text;
-
-                              // parse the time with formatTime function from sessiondata
-                              DateTime timestamp = DateTime.now();
-
-                              String hexagram1Description =
-                                  SessionData.hex1Definition;
-                              String? hexagram2Description =
-                                  SessionData.hex2Definition;
-
-                              // create a new questionresult object with the form data
-                              QuestionResult result = QuestionResult(
-                                question: SessionData.query,
-                                category: SessionData.sessionCategory,
-                                timestamp: timestamp,
-                                hexagram1No: SessionData.hex1No,
-                                hexagram1Title: SessionData.hex1Title,
-                                hexagram1Description: hexagram1Description,
-                                hexagram2No: SessionData.hex2No,
-                                hexagram2Title: SessionData.hex2Title,
-                                hexagram2Description: hexagram2Description,
-                                interpretation: SessionData.comments,
-                              );
-
-                              // save the result to sessiondata
-                              SessionData.addQuestionResult(result);
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const QueryDetails(),
-                                ),
-                              );
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 10,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: Text(
-                        'Save and Ask Another Question',
-                        style: TextStyle(
-                          fontSize: responsive.scaleFontSize(16),
+                        child: Text(
+                          'Generate Report',
+                          style: TextStyle(
+                            fontSize: responsive.scaleFontSize(16),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: responsive.scaleHeight(20)),
-                ],
+                    SizedBox(height: responsive.scaleHeight(16)),
+                    SizedBox(
+                      width: responsive.scaleWidth(312),
+                      child: ElevatedButton(
+                        onPressed: isFormFilled
+                            ? () {
+                                // set the form data into sessiondata
+                                SessionData.comments = commentsController.text;
+
+                                // parse the time with formatTime function from sessiondata
+                                DateTime timestamp = DateTime.now();
+
+                                String hexagram1Description =
+                                    SessionData.hex1Definition;
+                                String? hexagram2Description =
+                                    SessionData.hex2Definition;
+
+                                // create a new questionresult object with the form data
+                                QuestionResult result = QuestionResult(
+                                  question: SessionData.query,
+                                  category: SessionData.sessionCategory,
+                                  timestamp: timestamp,
+                                  hexagram1No: SessionData.hex1No,
+                                  hexagram1Title: SessionData.hex1Title,
+                                  hexagram1Description: hexagram1Description,
+                                  hexagram2No: SessionData.hex2No,
+                                  hexagram2Title: SessionData.hex2Title,
+                                  hexagram2Description: hexagram2Description,
+                                  interpretation: SessionData.comments,
+                                );
+
+                                // save the result to sessiondata
+                                SessionData.addQuestionResult(result);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const QueryDetails(),
+                                  ),
+                                );
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryColor,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 10,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          'Save and Ask Another Question',
+                          style: TextStyle(
+                            fontSize: responsive.scaleFontSize(16),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: responsive.scaleHeight(20)),
+                  ],
+                ),
               ),
             ),
           ],
