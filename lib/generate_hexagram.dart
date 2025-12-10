@@ -317,7 +317,7 @@ class GenerateHexagramState extends State<GenerateHexagram> {
                 ),
               ),
 
-              SizedBox(height: responsive.scaleHeight(40)),
+              SizedBox(height: responsive.scaleHeight(30)),
 
               // centered button
               Center(
