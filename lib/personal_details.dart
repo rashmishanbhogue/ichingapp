@@ -188,9 +188,39 @@ class PersonalDetailsState extends State<PersonalDetails> {
   // method to show the time picker for Time of Birth
   Future<void> selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
+        context: context,
+        initialTime: TimeOfDay.now(),
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: AppTheme.primaryColor,
+                onPrimary: Colors.white,
+                surface: Colors.white,
+                onSurface: AppTheme.secondaryColor,
+              ),
+              timePickerTheme: TimePickerThemeData(
+                dayPeriodColor: WidgetStateColor.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return AppTheme.primaryColor; // purple selected (PM)
+                  }
+                  return Colors.transparent; // unselected background
+                }),
+                dayPeriodTextColor: WidgetStateColor.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return Colors.white;
+                  }
+                  return AppTheme.secondaryColor;
+                }),
+                dayPeriodBorderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: child!,
+          );
+        });
 
     if (pickedTime != null) {
       final formatted = MaterialLocalizations.of(context).formatTimeOfDay(
@@ -215,6 +245,13 @@ class PersonalDetailsState extends State<PersonalDetails> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+
+      // force calendar mode only to avoid text input format issues
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+
+      // force day/month/year ordering visually
+      locale: const Locale('en', 'GB'),
+
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
