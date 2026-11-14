@@ -493,7 +493,7 @@ class ReportPreview extends StatelessWidget {
   Future<pw.Document> generatePDF() async {
     final pdf = pw.Document();
 
-    final logoBytes = await rootBundle.load('assets/images/logo.jpg');
+    final logoBytes = await rootBundle.load('assets/images/logo.png');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
     pdf.addPage(
