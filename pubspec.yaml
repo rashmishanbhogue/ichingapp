@@ -1,7 +1,7 @@
 name: iching
 description: "An I Ching app that streamlines the divination process for consultants, turning manual coin flipping into digital magic—because interpreting wisdom should be the hard part, not tossing coins!"
 publish_to: 'none'
-version: 1.1.2
+version: 1.1.3+2
 
 environment:
   sdk: ^3.5.3
@@ -32,7 +32,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/splash.svg
-    - assets/images/logo.jpg
+    - assets/images/logo.png
     - assets/images/iching_logo.png
     # - assets/fonts/NotoSans-Regular.ttf
     # - assets/fonts/NotoSans-Bold.ttf

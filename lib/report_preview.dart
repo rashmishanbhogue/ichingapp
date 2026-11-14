@@ -493,7 +493,7 @@ class ReportPreview extends StatelessWidget {
   Future<pw.Document> generatePDF() async {
     final pdf = pw.Document();
 
-    final logoBytes = await rootBundle.load('assets/images/logo.jpg');
+    final logoBytes = await rootBundle.load('assets/images/logo.png');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
     pdf.addPage(
@@ -514,7 +514,7 @@ class ReportPreview extends StatelessWidget {
                       pw.Image(logoImage, width: 30, height: 30),
                       pw.SizedBox(width: 8),
                       pw.Text(
-                        'Your Firm Name',
+                        'Media Vibrators',
                         style: pw.TextStyle(
                             fontSize: 10, fontWeight: pw.FontWeight.bold),
                       ),
@@ -568,34 +568,34 @@ class ReportPreview extends StatelessWidget {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Firm Address Line 1 - A',
+                      pw.Text('Shreepathy Acharya',
                           style: const pw.TextStyle(fontSize: 9)),
-                      pw.Text('Firm Address Line 2 - A',
+                      pw.Text('phonenumber',
                           style: const pw.TextStyle(fontSize: 9)),
-                      pw.Text('Firm Address Line 3 - A',
-                          style: const pw.TextStyle(fontSize: 9)),
+                      // pw.Text('Firm Address Line 3 - A',
+                      //     style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Firm Address Line 1 - B',
+                      pw.Text('Tejasvi S Acharya',
                           style: const pw.TextStyle(fontSize: 9)),
-                      pw.Text('Firm Address Line 2 - B',
+                      pw.Text('phonenumber',
                           style: const pw.TextStyle(fontSize: 9)),
-                      pw.Text('Firm Address Line 3 - B',
-                          style: const pw.TextStyle(fontSize: 9)),
+                      // pw.Text('Firm Address Line 3 - B',
+                      //     style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Firm Address Line 1 - C',
+                      pw.Text('Dr Vasavi Kumbale',
                           style: const pw.TextStyle(fontSize: 9)),
-                      pw.Text('Firm Address Line 2 - C',
+                      pw.Text('phonenumber',
                           style: const pw.TextStyle(fontSize: 9)),
-                      pw.Text('Firm Address Line 3 - C',
-                          style: const pw.TextStyle(fontSize: 9)),
+                      // pw.Text('Firm Address Line 3 - C',
+                      //     style: const pw.TextStyle(fontSize: 9)),
                     ],
                   ),
                 ],

@@ -25,13 +25,16 @@ class HexagramDetailsState extends State<HexagramDetails> {
   @override
   void initState() {
     super.initState();
+    commentsController.text = SessionData.comments;
+
+    // eestore the button state based on the restored comments
+    isFormFilled = isCommentsValid();
 
     commentsFocusNode.addListener(() {
-      if (!commentsFocusNode.hasFocus) {
+      if (!commentsFocusNode.hasFocus && hasCommentsInteracted) {
         // only act on focus loss
         setState(() {
-          hasCommentsInteracted = true;
-          validateComments();
+          isCommentsError = !isCommentsValid();
           checkFormFilled();
         });
       }
@@ -42,12 +45,15 @@ class HexagramDetailsState extends State<HexagramDetails> {
 
   bool isCommentsValid() {
     final comments = commentsController.text;
-    final words = comments
-        .trim()
+    final trimmedComments = comments.trim();
+
+    final words = trimmedComments
         .split(RegExp(r'\s+'))
         .where((word) => word.isNotEmpty)
         .toList();
-    return words.length <= 200 &&
+
+    return trimmedComments.isNotEmpty &&
+        words.length <= 200 &&
         RegExp(r'''^[a-zA-Z0-9.,?"'!\-\n\s]*$''').hasMatch(comments);
   }
 
@@ -68,8 +74,10 @@ class HexagramDetailsState extends State<HexagramDetails> {
   }
 
   void onRealTimeInputChange() {
+    SessionData.comments = commentsController.text;
+
     setState(() {
-      isCommentsError = !isCommentsValid();
+      isCommentsError = hasCommentsInteracted && !isCommentsValid();
       checkFormFilled();
     });
   }
@@ -289,6 +297,8 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                   controller: commentsController,
                                   focusNode: commentsFocusNode,
                                   onChanged: (value) {
+                                    hasCommentsInteracted = true;
+
                                     setState(() {
                                       isCommentsError = !isCommentsValid();
                                       checkFormFilled();
@@ -334,7 +344,9 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                 SessionData.comments = commentsController.text;
 
                                 // parse the time with formatTime function from sessiondata
-                                DateTime timestamp = DateTime.now();
+                                DateTime timestamp =
+                                    SessionData.queryTimestamp ??
+                                        DateTime.now();
 
                                 String hexagram1Description =
                                     SessionData.hex1Definition;
@@ -395,7 +407,9 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                 SessionData.comments = commentsController.text;
 
                                 // parse the time with formatTime function from sessiondata
-                                DateTime timestamp = DateTime.now();
+                                DateTime timestamp =
+                                    SessionData.queryTimestamp ??
+                                        DateTime.now();
 
                                 String hexagram1Description =
                                     SessionData.hex1Definition;
@@ -416,8 +430,17 @@ class HexagramDetailsState extends State<HexagramDetails> {
                                   interpretation: SessionData.comments,
                                 );
 
-                                // save the result to sessiondata
+                                // save the completed question before clearing the current session fields
                                 SessionData.addQuestionResult(result);
+
+// clear fields for the next question
+                                SessionData.query = '';
+                                SessionData.sessionCategory = '';
+                                SessionData.currentDate = '';
+                                SessionData.currentTime = '';
+                                SessionData.queryTimestamp = null;
+                                SessionData.queryTimestampQuestion = '';
+                                SessionData.comments = '';
 
                                 Navigator.push(
                                   context,
