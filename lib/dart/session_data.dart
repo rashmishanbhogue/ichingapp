@@ -36,6 +36,8 @@ class SessionData {
   static String currentDate = '';
   static String currentTime = '';
   static String query = '';
+  static DateTime? queryTimestamp;
+  static String queryTimestampQuestion = '';
   static String sessionCategory = '';
   static String comments = '';
   static String hex1No = '';
@@ -79,6 +81,8 @@ class SessionData {
     currentTime = '';
     query = '';
     sessionCategory = '';
+    queryTimestamp = null;
+    queryTimestampQuestion = '';
     comments = '';
     hex1No = '';
     hex1Title = '';

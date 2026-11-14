@@ -47,12 +47,30 @@ class QueryDetailsState extends State<QueryDetails> {
   void initState() {
     super.initState();
 
-    // set default system date and time
-    final DateTime now = DateTime.now();
-    currentdateController.text =
-        "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}";
-    currenttimeController.text =
-        "${now.hour % 12 == 0 ? 12 : now.hour % 12}:${now.minute.toString().padLeft(2, '0')} ${now.hour >= 12 ? 'PM' : 'AM'}";
+    // restore existing consultation date/time, or initialise for a new question
+    if (SessionData.currentDate.isNotEmpty &&
+        SessionData.currentTime.isNotEmpty) {
+      currentdateController.text = SessionData.currentDate;
+      currenttimeController.text = SessionData.currentTime;
+    } else {
+      final DateTime now = DateTime.now();
+
+      currentdateController.text =
+          "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}";
+
+      currenttimeController.text =
+          "${now.hour % 12 == 0 ? 12 : now.hour % 12}:${now.minute.toString().padLeft(2, '0')} ${now.hour >= 12 ? 'PM' : 'AM'}";
+
+      SessionData.currentDate = currentdateController.text;
+      SessionData.currentTime = currenttimeController.text;
+    }
+
+    // restore the question and category
+    questionController.text = SessionData.query;
+    selectedCategory = SessionData.sessionCategory.isEmpty
+        ? null
+        : SessionData.sessionCategory;
+    isFormFilled = isQuestionValid() && isCategoryValid();
 
     questionFocusNode.addListener(() {
       if (!questionFocusNode.hasFocus) {
@@ -83,6 +101,8 @@ class QueryDetailsState extends State<QueryDetails> {
 
   // method for realtime input change validation
   void onRealTimeInputChange() {
+    SessionData.query = questionController.text;
+
     setState(() {
       if (hasQuestionInteracted) {
         isQuestionError = !isQuestionValid();
@@ -103,12 +123,15 @@ class QueryDetailsState extends State<QueryDetails> {
 
   bool isQuestionValid() {
     final question = questionController.text;
-    final words = question
-        .trim()
+    final trimmedQuestion = question.trim();
+
+    final words = trimmedQuestion
         .split(RegExp(r'\s+'))
         .where((word) => word.isNotEmpty)
         .toList();
-    return words.length <= 200 &&
+
+    return trimmedQuestion.isNotEmpty &&
+        words.length <= 200 &&
         RegExp(r'''^[a-zA-Z0-9.,?"'!\-\n\s]*$''').hasMatch(question);
   }
 
@@ -319,15 +342,27 @@ class QueryDetailsState extends State<QueryDetails> {
 
                 SizedBox(height: responsive.scaleHeight(5)),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    categoryRadio('Business'),
-                    SizedBox(width: responsive.scaleWidth(24)),
-                    categoryRadio('Love'),
-                    SizedBox(width: responsive.scaleWidth(24)),
-                    categoryRadio('General'),
-                  ],
+                RadioGroup<String>(
+                  groupValue: selectedCategory,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCategory = value;
+                      SessionData.sessionCategory = value ?? '';
+                      hasCategoryInteracted = true;
+                      validateCategory();
+                      checkFormFilled();
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      categoryRadio('Business'),
+                      SizedBox(width: responsive.scaleWidth(24)),
+                      categoryRadio('Love'),
+                      SizedBox(width: responsive.scaleWidth(24)),
+                      categoryRadio('General'),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: responsive.scaleHeight(24)),
@@ -344,6 +379,20 @@ class QueryDetailsState extends State<QueryDetails> {
                                   currenttimeController.text;
                               SessionData.query = questionController.text;
                               SessionData.sessionCategory = selectedCategory!;
+
+                              final currentQuestion =
+                                  questionController.text.trim();
+
+                              if (SessionData.queryTimestamp == null ||
+                                  SessionData.queryTimestampQuestion !=
+                                      currentQuestion) {
+                                SessionData.queryTimestamp = DateTime.now();
+                                SessionData.queryTimestampQuestion =
+                                    currentQuestion;
+                              }
+
+                              // clear the previous interpretation for the new coin toss
+                              SessionData.comments = '';
 
                               Navigator.push(
                                 context,
@@ -384,15 +433,6 @@ class QueryDetailsState extends State<QueryDetails> {
       children: [
         Radio<String>(
           value: label,
-          groupValue: selectedCategory,
-          onChanged: (value) {
-            setState(() {
-              selectedCategory = value!;
-              hasCategoryInteracted = true;
-              validateCategory();
-              checkFormFilled();
-            });
-          },
         ),
         Text(
           label,

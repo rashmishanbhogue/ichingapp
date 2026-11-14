@@ -46,6 +46,12 @@ class PersonalDetailsState extends State<PersonalDetails> {
   void initState() {
     super.initState();
 
+    // restore previously entered values
+    nameController.text = SessionData.name;
+    dobController.text = SessionData.dob;
+    tobController.text = SessionData.tob;
+    pobController.text = SessionData.pob;
+
     nameFocusNode.addListener(() {
       if (!nameFocusNode.hasFocus) {
         hasNameInteracted = true;
@@ -83,6 +89,10 @@ class PersonalDetailsState extends State<PersonalDetails> {
 
   // method for realtime input change validation
   void onRealTimeInputChange() {
+    SessionData.name = nameController.text;
+    SessionData.dob = dobController.text;
+    SessionData.tob = tobController.text;
+    SessionData.pob = pobController.text;
     setState(() {
       if (hasNameInteracted) isNameError = !isNameValid();
       if (hasDobInteracted) isDobError = !isDobValid();
@@ -96,26 +106,84 @@ class PersonalDetailsState extends State<PersonalDetails> {
 
   // validation checks for each field
   bool isNameValid() {
-    final name = nameController.text;
+    final name = nameController.text.trim();
     return RegExp(r'^[a-zA-Z\s]+$').hasMatch(name) && name.isNotEmpty;
   }
 
   bool isDobValid() {
-    final dob = dobController.text;
-    return RegExp(r'^\d{2}/\d{2}/\d{4}$')
-        .hasMatch(dob); // check format DD/MM/YYYY
+    final dob = dobController.text.trim();
+    if (!RegExp(r'^\d{2}/\d{2}/\d{4}$').hasMatch(dob)) {
+      return false;
+    }
+
+    final parts = dob.split('/');
+    final day = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final year = int.parse(parts[2]);
+
+    final birthDate = DateTime(year, month, day);
+
+    // reject invalid calendar dates and future dates
+    if (birthDate.day != day ||
+        birthDate.month != month ||
+        birthDate.year != year) {
+      return false;
+    }
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    return !birthDate.isAfter(today);
   }
 
   bool isTobValid() {
     final tob = tobController.text.trim();
-    if (tob.isEmpty) return false;
-    final regex12 = RegExp(r'^\d{1,2}:\d{2}\s?(AM|PM)$', caseSensitive: false);
-    final regex24 = RegExp(r'^\d{2}:\d{2}$'); // 24-hour format
-    return regex12.hasMatch(tob) || regex24.hasMatch(tob);
+    if (tob.isEmpty || !isDobValid()) return false;
+
+    int hour;
+    int minute;
+
+    final regex12 =
+        RegExp(r'^(\d{1,2}):(\d{2})\s?(AM|PM)$', caseSensitive: false);
+    final regex24 = RegExp(r'^(\d{2}):(\d{2})$');
+
+    final match12 = regex12.firstMatch(tob);
+    final match24 = regex24.firstMatch(tob);
+
+    if (match12 != null) {
+      hour = int.parse(match12.group(1)!);
+      minute = int.parse(match12.group(2)!);
+
+      if (hour < 1 || hour > 12 || minute > 59) return false;
+
+      final period = match12.group(3)!.toUpperCase();
+
+      if (period == 'AM') {
+        hour = hour == 12 ? 0 : hour;
+      } else {
+        hour = hour == 12 ? 12 : hour + 12;
+      }
+    } else if (match24 != null) {
+      hour = int.parse(match24.group(1)!);
+      minute = int.parse(match24.group(2)!);
+
+      if (hour > 23 || minute > 59) return false;
+    } else {
+      return false;
+    }
+
+    final parts = dobController.text.trim().split('/');
+    final day = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final year = int.parse(parts[2]);
+
+    final birthDateTime = DateTime(year, month, day, hour, minute);
+
+    return !birthDateTime.isAfter(DateTime.now());
   }
 
   bool isPobValid() {
-    final pob = pobController.text;
+    final pob = pobController.text.trim();
     return RegExp(r'^[a-zA-Z\s,]+$').hasMatch(pob) && pob.isNotEmpty;
   }
 
@@ -419,7 +487,11 @@ class PersonalDetailsState extends State<PersonalDetails> {
                               color: AppTheme.secondaryColor,
                             ),
                             errorText: isTobError
-                                ? 'Time of Birth cannot be blank'
+                                ? tobController.text.trim().isEmpty
+                                    ? 'Time of Birth cannot be blank'
+                                    : !isDobValid()
+                                        ? 'Please enter a valid Date of Birth first'
+                                        : 'Time of Birth cannot be in the future'
                                 : null,
                           ),
                           style: const TextStyle(
