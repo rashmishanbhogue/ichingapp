@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'query_details.dart';
-import 'report_preview.dart';
+import 'report_preview_placeholder.dart';
 import './dart/responsive.dart';
 import './dart/theme.dart';
 import './dart/session_data.dart';

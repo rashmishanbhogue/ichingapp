@@ -1,4 +1,4 @@
-// report_preview.dart, view and download report in pdf formatted for a5
+// report_preview_placeholder.dart, view and download report in pdf formatted for a5
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -493,7 +493,7 @@ class ReportPreview extends StatelessWidget {
   Future<pw.Document> generatePDF() async {
     final pdf = pw.Document();
 
-    final logoBytes = await rootBundle.load('assets/images/logo.png');
+    final logoBytes = await rootBundle.load('assets/images/logo.jpg');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
     pdf.addPage(
@@ -514,7 +514,7 @@ class ReportPreview extends StatelessWidget {
                       pw.Image(logoImage, width: 30, height: 30),
                       pw.SizedBox(width: 8),
                       pw.Text(
-                        'Media Vibrators',
+                        'firm name',
                         style: pw.TextStyle(
                             fontSize: 10, fontWeight: pw.FontWeight.bold),
                       ),
@@ -568,7 +568,7 @@ class ReportPreview extends StatelessWidget {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Shreepathy Acharya',
+                      pw.Text('practitioner name 1',
                           style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('phonenumber',
                           style: const pw.TextStyle(fontSize: 9)),
@@ -579,7 +579,7 @@ class ReportPreview extends StatelessWidget {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Tejasvi S Acharya',
+                      pw.Text('practitioner name 2',
                           style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('phonenumber',
                           style: const pw.TextStyle(fontSize: 9)),
@@ -590,7 +590,7 @@ class ReportPreview extends StatelessWidget {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Dr Vasavi Kumbale',
+                      pw.Text('practitioner name 3',
                           style: const pw.TextStyle(fontSize: 9)),
                       pw.Text('phonenumber',
                           style: const pw.TextStyle(fontSize: 9)),

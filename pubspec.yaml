@@ -33,6 +33,7 @@ flutter:
   assets:
     - assets/images/splash.svg
     - assets/images/logo.png
+    - assets/images/logo.jpg
     - assets/images/iching_logo.png
     # - assets/fonts/NotoSans-Regular.ttf
     # - assets/fonts/NotoSans-Bold.ttf
